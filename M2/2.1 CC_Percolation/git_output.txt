@@ -1,0 +1,6 @@
+[master 79c2da2] "ads2_m2_a1_1: 24/24 testcases passed. Cannot run hidden testcases as Server is unreachablecheck_style score: 0/1 "
+ 7 files changed, 55 insertions(+), 53 deletions(-)
+ create mode 100644 M2/2.1 CC_Percolation/md5/score.txt
+ rewrite M2/2.1 CC_Percolation/percolate.class (100%)
+ create mode 100644 M2/2.1 CC_Percolation/result/score.json
+fatal: unable to access 'https://github.com/manasa133/ADS-2.git/': Failed to connect to 10.10.10.3 port 3128: Connection timed out
