@@ -7,7 +7,8 @@ class PageRank {
 		pageRankArr = new double[g.V()];
 		//System.out.println((double)1/4);
 		for(int i =0;i< g.V();i++){
-			pageRankArr[i]= 1/g.V();
+			pageRankArr[i]= (double)1/g.V();
+			//System.out.println("Check"+pageRankArr[i]);
 		}
 		for(int i =0;i< g.V();i++){
 			pageRankArr[i]= getPR(i);
@@ -28,19 +29,15 @@ class PageRank {
 		}
 		int iterations =1000;
 		double sum=0;
-		while(iterations>0){
+		//while(iterations>0){
 			iterations--;
 			int indegreeCount  = graph.indegree(v);
-			// for(int i =0 ;i <indegreeCount;i++){
-
-			// 	sum+=pageRankArr[i];
-			// }
 			for(int adjs :  reverse.adj(v)){
 				sum+=(pageRankArr[adjs]/graph.outdegree(adjs));
 				//System.out.println(sum);
 			}
-			iterations--;
-		}
+		// 	iterations--;
+		// }
 		return sum;
 
 	}
