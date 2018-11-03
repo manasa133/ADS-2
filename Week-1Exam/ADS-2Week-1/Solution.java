@@ -29,15 +29,18 @@ class PageRank {
 		}
 		int iterations =1000;
 		double sum=0.0;
-		//while(iterations>0){
-			//iterations--;
+
+		while(iterations>0){
+			iterations--;
+
 			int indegreeCount  = graph.indegree(v);
 			for(int adjs :  reverse.adj(v)){
+				getPR(adjs);
 				sum+=(pageRankArr[adjs]/graph.outdegree(adjs));
 				//System.out.println(sum);
 			}
-		// 	iterations--;
-		// }
+			iterations--;
+		}
 			//System.out.format("%.10f", sum);
 		return sum;
 
