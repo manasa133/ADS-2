@@ -1,9 +1,36 @@
 import java.util.*;
 class PageRank {
 	Digraph graph;
+	double pageRankArr[];
 	PageRank(Digraph g){
 		graph = g;
+		pageRankArr = new double[g.V()];
+		System.out.println((double)1/4);
+		for(int i =0;i< g.V();i++){
+			pageRankArr[i]= 1/g.V();
+		}
+
+
+
 	}
+	double getPR(int v){
+		double one = 1/4;
+
+
+
+
+		return 0;
+
+	}
+	public String toString(){
+		String res ="";
+		for(int i=0;i<graph.V();i++){
+			System.out.println(pageRankArr[i]);
+		}
+		return res;
+	}
+
+
 
 }
 
@@ -35,7 +62,8 @@ public class Solution {
 
 		// Create page rank object and pass the graph object to the constructor
 		PageRank prObj =  new PageRank(graph);
-		System.out.println(graph);
+		System.out.println(prObj.graph);
+		System.out.println(prObj);
 
 		// print the page rank object
 
@@ -43,6 +71,7 @@ public class Solution {
 
 		// File path to the web content
 		String file = "WebContent.txt";
+
 
 		// instantiate web search object
 		// and pass the page rank object and the file path to the constructor
