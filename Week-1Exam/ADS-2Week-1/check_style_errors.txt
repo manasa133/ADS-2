@@ -294,6 +294,10 @@ Starting audit...
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:30:33: '=' is not followed by whitespace. [WhitespaceAround]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:31:27: '=' is not preceded with whitespace. [WhitespaceAround]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:31:28: '=' is not followed by whitespace. [WhitespaceAround]
+[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:32:22: 'while' is not followed by whitespace. [WhitespaceAfter]
+[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:32:33: '>' is not preceded with whitespace. [WhitespaceAround]
+[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:32:34: '>' is not followed by whitespace. [WhitespaceAround]
+[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:32:36: '{' is not preceded with whitespace. [WhitespaceAround]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:35:28: 'for' is not followed by whitespace. [WhitespaceAfter]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:35:56: '{' is not preceded with whitespace. [WhitespaceAround]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:36:36: '+=' is not preceded with whitespace. [WhitespaceAround]
@@ -342,7 +346,7 @@ Starting audit...
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:82: Line is longer than 80 characters (found 87). [LineLength]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:96: Line is longer than 80 characters (found 85). [LineLength]
 Audit done.
-Checkstyle ends with 84 errors.
+Checkstyle ends with 88 errors.
 Starting audit...
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/StdIn.java:27: Line is longer than 80 characters (found 84). [LineLength]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/StdIn.java:38: Line is longer than 80 characters (found 84). [LineLength]
