@@ -9,12 +9,21 @@ class PageRank {
 		for(int i =0;i< g.V();i++){
 			pageRankArr[i]= 1/g.V();
 		}
+		for(int i =0;i< g.V();i++){
+			pageRankArr[i]= getPR(i);
+		}
+
+
+
 
 
 
 	}
 	double getPR(int v){
-		double one = 1/4;
+		if(graph.indegree(v) == 0){
+			return 0.0;
+		}
+
 
 
 
