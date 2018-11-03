@@ -5,14 +5,14 @@ class PageRank {
 	PageRank(Digraph g){
 		graph = g;
 		pageRankArr = new double[g.V()];
-		System.out.println((double)1/4);
+		//System.out.println((double)1/4);
 		for(int i =0;i< g.V();i++){
 			pageRankArr[i]= 1/g.V();
 		}
 		for(int i =0;i< g.V();i++){
 			pageRankArr[i]= getPR(i);
 		}
-
+		//getPR(0);
 
 
 
@@ -20,15 +20,28 @@ class PageRank {
 
 	}
 	double getPR(int v){
+		Digraph reverse = graph.reverse();
+		// System.out.println("reverse"+reverse);
+		// System.out.println("original"+graph);
 		if(graph.indegree(v) == 0){
 			return 0.0;
 		}
+		int iterations =1000;
+		double sum=0;
+		while(iterations>0){
+			iterations--;
+			int indegreeCount  = graph.indegree(v);
+			// for(int i =0 ;i <indegreeCount;i++){
 
-
-
-
-
-		return 0;
+			// 	sum+=pageRankArr[i];
+			// }
+			for(int adjs :  reverse.adj(v)){
+				sum+=(pageRankArr[adjs]/graph.outdegree(adjs));
+				//System.out.println(sum);
+			}
+			iterations--;
+		}
+		return sum;
 
 	}
 	public String toString(){
