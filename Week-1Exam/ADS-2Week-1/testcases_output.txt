@@ -12,7 +12,7 @@ Expected Output:
 3 - 0.0
 
 Your Output: 
-4 vertices, 5 edges 
+0.25000000000.12500000000.50000000004 vertices, 5 edges 
 0: 2 1 
 1: 2 
 2: 0 
@@ -38,7 +38,7 @@ Expected Output:
 3 - 0.09090909090909086
 
 Your Output: 
-4 vertices, 6 edges 
+0.50000000000.50000000000.25000000000.12500000004 vertices, 6 edges 
 0: 1 
 1: 2 0 
 2: 3 0 
@@ -64,7 +64,7 @@ Expected Output:
 3 - 0.07692307692307687
 
 Your Output: 
-4 vertices, 8 edges 
+0.33333333330.41666666670.33333333330.11111111114 vertices, 8 edges 
 0: 1 
 1: 2 0 
 2: 3 1 0 
@@ -98,7 +98,7 @@ Expected Output:
 7 - 0.02941176470588232
 
 Your Output: 
-8 vertices, 14 edges 
+0.77500000000.25833333330.25833333330.25833333330.05166666670.05166666670.05166666670.05166666678 vertices, 14 edges 
 0: 3 2 1 
 1: 0 
 2: 0 
@@ -136,7 +136,7 @@ Expected Output:
 5 - 0.07936507936507975
 
 Your Output: 
-6 vertices, 8 edges 
+0.58333333330.19444444440.19444444440.19444444440.09722222226 vertices, 8 edges 
 0: 3 2 1 
 1: 0 
 2: 0 
@@ -174,7 +174,7 @@ Expected Output:
 7 - 0.051470588235294074
 
 Your Output: 
-8 vertices, 10 edges 
+0.27500000000.09166666670.09166666670.09166666670.01833333330.01833333330.01833333330.01833333338 vertices, 10 edges 
 0: 3 2 1 
 1: 0 
 2: 0 
@@ -194,7 +194,7 @@ Your Output:
 7 - 0.018333333333333333
 ----------------------------------------
 
-########## Testcase 6: Passed ##########
+########## Testcase 6: Failed ##########
 Expected Output: 
 4 vertices, 4 edges 
 0: 1 
@@ -208,7 +208,7 @@ Expected Output:
 3 - 0.25
 
 Your Output: 
-4 vertices, 4 edges 
+0.25000000000.25000000000.25000000000.25000000004 vertices, 4 edges 
 0: 1 
 1: 2 
 2: 3 
@@ -238,7 +238,7 @@ Expected Output:
 5 - 0.12499999999999999
 
 Your Output: 
-6 vertices, 6 edges 
+0.25000000000.25000000000.25000000000.25000000000.12500000006 vertices, 6 edges 
 0: 1 
 1: 2 
 2: 3 
@@ -254,7 +254,7 @@ Your Output:
 5 - 0.125
 ----------------------------------------
 
-########## Testcase 8: Passed ##########
+########## Testcase 8: Failed ##########
 Expected Output: 
 4 vertices, 12 edges 
 0: 3 2 1 
@@ -268,7 +268,7 @@ Expected Output:
 3 - 0.25
 
 Your Output: 
-4 vertices, 12 edges 
+0.25000000000.25000000000.25000000000.25000000004 vertices, 12 edges 
 0: 3 2 1 
 1: 3 2 0 
 2: 3 1 0 
@@ -298,7 +298,7 @@ Expected Output:
 5 - 0.060240963855421686
 
 Your Output: 
-6 vertices, 14 edges 
+0.31944444440.20370370370.22993827160.23186728400.05748456796 vertices, 14 edges 
 0: 3 2 1 
 1: 3 2 0 
 2: 5 3 1 0 
@@ -314,7 +314,7 @@ Your Output:
 5 - 0.05748456790123456
 ----------------------------------------
 
-########## Testcase 10: Passed ##########
+########## Testcase 10: Failed ##########
 Expected Output: 
 2 vertices, 2 edges 
 0: 1 
@@ -324,7 +324,7 @@ Expected Output:
 1 - 0.5
 
 Your Output: 
-2 vertices, 2 edges 
+0.50000000000.50000000002 vertices, 2 edges 
 0: 1 
 1: 0 
 
@@ -367,7 +367,7 @@ Expected Output:
 0
 
 Your Output: 
-12 vertices, 22 edges 
+0.84259259260.28086419750.28086419750.28086419750.03120713310.03120713310.03120713310.03120713310.03120713310.03120713310.03120713310.031207133112 vertices, 22 edges 
 0: 3 2 1 
 1: 0 
 2: 0 

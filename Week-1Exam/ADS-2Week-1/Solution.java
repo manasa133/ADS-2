@@ -38,6 +38,7 @@ class PageRank {
 			}
 		// 	iterations--;
 		// }
+			System.out.format("%.10f", sum);
 		return sum;
 
 	}
