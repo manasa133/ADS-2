@@ -44,7 +44,7 @@ class PageRank {
 	public String toString(){
 		String res ="";
 		for(int i=0;i<graph.V();i++){
-			System.out.println(pageRankArr[i]);
+			System.out.println(i+" - "+pageRankArr[i]);
 		}
 		return res;
 	}
