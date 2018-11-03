@@ -7,7 +7,7 @@ class PageRank {
 		pageRankArr = new double[g.V()];
 		//System.out.println((double)1/4);
 		for(int i =0;i< g.V();i++){
-			pageRankArr[i]= (double)1/g.V();
+			pageRankArr[i]= (double)1.0/g.V();
 			//System.out.println("Check"+pageRankArr[i]);
 		}
 		for(int i =0;i< g.V();i++){
