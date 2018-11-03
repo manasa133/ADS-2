@@ -14,38 +14,31 @@ class PageRank {
 			pageRankArr[i]= getPR(i);
 		}
 		//getPR(0);
-
-
-
-
-
-	}
-	double getPR(int v){
-		Digraph reverse = graph.reverse();
-		// System.out.println("reverse"+reverse);
-		// System.out.println("original"+graph);
-		if(graph.indegree(v) == 0){
-			return 0.0;
-		}
+		double tempPR[] = new double[g.V()];
 		int iterations =1000;
-		double sum=0.0;
-
 		while(iterations>0){
-			iterations--;
-
-			int indegreeCount  = graph.indegree(v);
-			for(int adjs :  reverse.adj(v)){
-				int indegreeCountTemp = graph.indegree(adjs);
-				double s1 = 0.0;
-				for(int tem : reverse.adj(adjs)){
-					s1 += (pageRankArr[tem]/graph.outdegree(tem));
-				}
-				//sum+=(pageRankArr[adjs]/graph.outdegree(adjs));
-				//System.out.println(sum);
-				sum+=s1;
+			for(int j=0;j<g.V();j++){
+				tempPR[j] = pageRankArr[j];
+			}
+			for(int i =0;i< g.V();i++){
+				pageRankArr[i]= getPR(i);
 			}
 			iterations--;
 		}
+	}
+
+	double getPR(int v){
+		Digraph reverse = graph.reverse();
+		if(graph.indegree(v) == 0){
+			return 0.0;
+		}
+		double sum=0.0;
+			int indegreeCount  = graph.indegree(v);
+			for(int adjs :  reverse.adj(v)){
+				sum+=(pageRankArr[adjs]/graph.outdegree(adjs));
+
+			}
+
 			//System.out.format("%.10f", sum);
 		return sum;
 
