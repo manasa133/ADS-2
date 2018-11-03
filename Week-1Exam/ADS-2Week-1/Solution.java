@@ -38,7 +38,7 @@ class PageRank {
 			}
 		// 	iterations--;
 		// }
-			System.out.format("%.10f", sum);
+			//System.out.format("%.10f", sum);
 		return sum;
 
 	}
