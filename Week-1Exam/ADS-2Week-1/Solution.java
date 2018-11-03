@@ -2,44 +2,50 @@ import java.util.*;
 class PageRank {
 	Digraph graph;
 	double pageRankArr[];
+	double tempPR[];
+	Digraph reverse;
 	PageRank(Digraph g){
+		//System.out.println(5.0/8.0);
 		graph = g;
+		reverse = graph.reverse();
 		pageRankArr = new double[g.V()];
 		//System.out.println((double)1/4);
 		for(int i =0;i< g.V();i++){
 			pageRankArr[i]= (double)1.0/g.V();
 			//System.out.println("Check"+pageRankArr[i]);
 		}
-		for(int i =0;i< g.V();i++){
-			pageRankArr[i]= getPR(i);
-		}
+		// for(int i =0;i< g.V();i++){
+		// 	pageRankArr[i]= getPR(i);
+		// }
 		//getPR(0);
-		double tempPR[] = new double[g.V()];
+		tempPR= new double[g.V()];
 		int iterations =1000;
 		while(iterations>0){
+			//System.out.println("IIII"+iterations);
 			for(int j=0;j<g.V();j++){
 				tempPR[j] = pageRankArr[j];
 			}
 			for(int i =0;i< g.V();i++){
+				//System.out.println("V-"+i);
 				pageRankArr[i]= getPR(i);
+				//System.out.println();
 			}
 			iterations--;
 		}
 	}
 
 	double getPR(int v){
-		Digraph reverse = graph.reverse();
+
 		if(graph.indegree(v) == 0){
 			return 0.0;
 		}
 		double sum=0.0;
 			int indegreeCount  = graph.indegree(v);
 			for(int adjs :  reverse.adj(v)){
-				sum+=(pageRankArr[adjs]/graph.outdegree(adjs));
+				//System.out.println(tempPR[adjs]+"/"+graph.outdegree(adjs));
+				sum+=(tempPR[adjs]/graph.outdegree(adjs));
 
 			}
-
-			//System.out.format("%.10f", sum);
 		return sum;
 
 	}
@@ -70,17 +76,12 @@ public class Solution {
 		// iterate count of vertices times
 		// to read the adjacency list from std input
 		// and build the graph
-
-
 		for(int i=0;i<vertices;i++){
 			String[] list = sc.nextLine().split(" ");
 			for(int j=1;j<list.length;j++){
 				graph.addEdge(Integer.parseInt(list[0]),Integer.parseInt(list[j]));
 			}
-
 		}
-
-
 		// Create page rank object and pass the graph object to the constructor
 		PageRank prObj =  new PageRank(graph);
 		System.out.println(prObj.graph);
