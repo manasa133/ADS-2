@@ -48,10 +48,11 @@ class PageRank {
 			int indegreeCount  = graph.indegree(v);
 			for(int adjs :  reverse.adj(v)){
 				//System.out.println(tempPR[adjs]+"/"+graph.outdegree(adjs));
-				if(graph.outdegree(adjs)!=0){
-					sum+=(tempPR[adjs]/graph.outdegree(adjs));
-				}else{
+				if(graph.outdegree(adjs)==0){
 					sum+=(tempPR[adjs]/(graph.V()-1));
+				}else{
+
+					sum+=(tempPR[adjs]/graph.outdegree(adjs));
 				}
 
 
