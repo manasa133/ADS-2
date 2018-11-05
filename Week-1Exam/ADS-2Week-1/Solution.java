@@ -90,8 +90,9 @@ public class Solution {
 			}
 		}
 		// Create page rank object and pass the graph object to the constructor
-		PageRank prObj =  new PageRank(graph);
 		System.out.println(graph);
+		PageRank prObj =  new PageRank(graph);
+
 		System.out.println(prObj);
 
 		// print the page rank object

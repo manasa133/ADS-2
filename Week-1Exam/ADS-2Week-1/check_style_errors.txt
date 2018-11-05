@@ -384,7 +384,7 @@ Starting audit...
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:89: Line is longer than 80 characters (found 99). [LineLength]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:89:73: ',' is not followed by whitespace. [WhitespaceAfter]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:92: Line is longer than 80 characters (found 87). [LineLength]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:106: Line is longer than 80 characters (found 85). [LineLength]
+[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/Week-1Exam/ADS-2Week-1/Solution.java:107: Line is longer than 80 characters (found 85). [LineLength]
 Audit done.
 Checkstyle ends with 128 errors.
 Starting audit...
