@@ -9,7 +9,15 @@ class PageRank {
 		graph = g;
 		reverse = graph.reverse();
 		pageRankArr = new double[g.V()];
+
 		//System.out.println((double)1/4);
+		for(int j=0; j<g.V();j++){
+			for(int k=0;k<g.V();k++){
+				if(k!=j){
+					g.addEdge(j,k);
+				}
+			}
+		}
 		for(int i =0;i< g.V();i++){
 			pageRankArr[i]= (double)1.0/g.V();
 			//System.out.println("Check"+pageRankArr[i]);
@@ -33,8 +41,6 @@ class PageRank {
 			if(Arrays.equals(tempPR, pageRankArr)) {
 				break;
 			}
-
-
 			iterations--;
 		}
 	}
@@ -48,12 +54,12 @@ class PageRank {
 			int indegreeCount  = graph.indegree(v);
 			for(int adjs :  reverse.adj(v)){
 				//System.out.println(tempPR[adjs]+"/"+graph.outdegree(adjs));
-				if(graph.outdegree(adjs)==0){
-					sum+=(tempPR[adjs]/(graph.V()-1));
-				}else{
+				// //if(graph.outdegree(adjs)==0){
+				// 	sum+=(tempPR[adjs]/(graph.V()));
+				// }else{
 
 					sum+=(tempPR[adjs]/graph.outdegree(adjs));
-				}
+				//}
 
 
 			}
