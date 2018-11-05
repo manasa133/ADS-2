@@ -7,7 +7,7 @@ class PageRank {
 	PageRank(Digraph g){
 		//System.out.println(5.0/8.0);
 		graph = g;
-		reverse = graph.reverse();
+
 		pageRankArr = new double[g.V()];
 		for(int j=0; j<g.V();j++){
 			if(graph.outdegree(j)==0){
@@ -18,6 +18,7 @@ class PageRank {
 			}
 			}
 		}
+		reverse = graph.reverse();
 		for(int i =0;i< g.V();i++){
 			pageRankArr[i]= (double)1.0/g.V();
 		}
