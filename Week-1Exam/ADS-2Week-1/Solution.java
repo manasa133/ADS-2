@@ -11,13 +11,13 @@ class PageRank {
 		pageRankArr = new double[g.V()];
 
 		//System.out.println((double)1/4);
-		for(int j=0; j<g.V();j++){
-			for(int k=0;k<g.V();k++){
-				if(k!=j){
-					graph.addEdge(j,k);
-				}
-			}
-		}
+		// for(int j=0; j<g.V();j++){
+		// 	for(int k=0;k<g.V();k++){
+		// 		if(k!=j){
+		// 			graph.addEdge(j,k);
+		// 		}
+		// 	}
+		// }
 		for(int i =0;i< g.V();i++){
 			pageRankArr[i]= (double)1.0/g.V();
 			//System.out.println("Check"+pageRankArr[i]);
