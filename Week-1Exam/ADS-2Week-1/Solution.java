@@ -14,7 +14,7 @@ class PageRank {
 		for(int j=0; j<g.V();j++){
 			for(int k=0;k<g.V();k++){
 				if(k!=j){
-					g.addEdge(j,k);
+					graph.addEdge(j,k);
 				}
 			}
 		}
