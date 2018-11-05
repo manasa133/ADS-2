@@ -15,7 +15,7 @@ class PageRank {
 			if(graph.outdegree(j)==0){
 				for(int k=0;k<g.V();k++){
 				if(k!=j){
-					graph.addEdge(j,k);
+					graph.addEdge(k,j);
 				}
 			}
 			}
