@@ -1,0 +1,4 @@
+[master d726eac] "ads2_m10_a1_1: 5/9 testcases passed. Cannot run hidden testcases as Server is unreachablecheck_style score: 0/1 "
+ 4 files changed, 221 insertions(+), 2 deletions(-)
+ rewrite SEAMCARVING-Module/Seam Carving/SeamCarver.class (88%)
+ create mode 100644 SEAMCARVING-Module/Seam Carving/SeamCarver.java
