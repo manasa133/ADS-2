@@ -97,7 +97,7 @@ public class SeamCarver {
             indices[col] = row;
             row -= edgeTo[row][col];
         }
-       // indices[0]=indices[1];
+       indices[0]=indices[1];
 
 
         return indices;
