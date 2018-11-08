@@ -39,7 +39,7 @@ public class SeamCarver {
             || y == 0 || y == height() - 1) {
             return 1000;
         } else {
-            return xGradientSquared(x, y) + yGradientSquared(x, y);
+            return Math.sqrt(xGradientSquared(x, y) + yGradientSquared(x, y));
         }
     }
 
