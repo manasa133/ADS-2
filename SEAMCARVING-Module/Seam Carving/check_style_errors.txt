@@ -72,34 +72,6 @@ Starting audit...
 Audit done.
 Checkstyle ends with 42 errors.
 Starting audit...
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:0: File does not end with a newline. [NewlineAtEndOfFile]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:2: Missing a Javadoc comment. [JavadocType]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:3:1: File contains tab characters (this is the first instance). [FileTabCharacter]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:4:9: Missing a Javadoc comment. [JavadocVariable]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:4:17: Variable 'pic' must be private and have accessor methods. [VisibilityModifier]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:5:9: Missing a Javadoc comment. [JavadocMethod]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:5:27: Parameter picture should be final. [FinalParameters]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:10:9: Class 'SeamCarver' looks like designed for extension (can be subclassed), but the method 'picture' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'SeamCarver' final or making the method 'picture' static/final/abstract/empty, or adding allowed annotation for the method. [DesignForExtension]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:10:9: Missing a Javadoc comment. [JavadocMethod]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:14:9: Class 'SeamCarver' looks like designed for extension (can be subclassed), but the method 'width' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'SeamCarver' final or making the method 'width' static/final/abstract/empty, or adding allowed annotation for the method. [DesignForExtension]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:14:9: Missing a Javadoc comment. [JavadocMethod]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:19:9: Class 'SeamCarver' looks like designed for extension (can be subclassed), but the method 'height' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'SeamCarver' final or making the method 'height' static/final/abstract/empty, or adding allowed annotation for the method. [DesignForExtension]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:19:9: Missing a Javadoc comment. [JavadocMethod]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:24:9: Class 'SeamCarver' looks like designed for extension (can be subclassed), but the method 'energy' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'SeamCarver' final or making the method 'energy' static/final/abstract/empty, or adding allowed annotation for the method. [DesignForExtension]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:24:9: Missing a Javadoc comment. [JavadocMethod]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:24:30: Parameter x should be final. [FinalParameters]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:24:37: Parameter y should be final. [FinalParameters]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:29:9: Class 'SeamCarver' looks like designed for extension (can be subclassed), but the method 'findHorizontalSeam' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'SeamCarver' final or making the method 'findHorizontalSeam' static/final/abstract/empty, or adding allowed annotation for the method. [DesignForExtension]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:29:9: Missing a Javadoc comment. [JavadocMethod]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:34:9: Class 'SeamCarver' looks like designed for extension (can be subclassed), but the method 'findVerticalSeam' does not have javadoc that explains how to do that safely. If class is not designed for extension consider making the class 'SeamCarver' final or making the method 'findVerticalSeam' static/final/abstract/empty, or adding allowed annotation for the method. [DesignForExtension]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:34:9: Missing a Javadoc comment. [JavadocMethod]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:39:9: Missing a Javadoc comment. [JavadocMethod]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:39:42: Parameter seam should be final. [FinalParameters]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:44:9: Missing a Javadoc comment. [JavadocMethod]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/SeamCarver.java:44:40: Parameter seam should be final. [FinalParameters]
-Audit done.
-Checkstyle ends with 25 errors.
-Starting audit...
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/Picture.java:36:8: Unused import - javax.swing.JPanel. [UnusedImports]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/Picture.java:45: Line is longer than 80 characters (found 83). [LineLength]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving/Picture.java:49: Line is longer than 80 characters (found 83). [LineLength]
