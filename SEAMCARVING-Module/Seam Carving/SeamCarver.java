@@ -140,6 +140,7 @@ public class SeamCarver {
             seam[h] = prevX;
             prevX = xTo[prevX][h];
         }
+        seam[0]=seam[1];
 
         return seam;
     }
