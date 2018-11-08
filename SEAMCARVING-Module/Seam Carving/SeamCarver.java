@@ -172,6 +172,7 @@ public class SeamCarver {
             index = energies[row][index].prev;
             row--;
         }
+        seam[0]=seam[1];
         return seam;
     }
 
@@ -193,6 +194,7 @@ public class SeamCarver {
             index = energies[index][col].prev;
             col--;
         }
+        seam[0]=seam[1];
         return seam;
     }
 
