@@ -37,7 +37,7 @@ public class SeamCarver {
 
         if (x == 0 || x == width() - 1
             || y == 0 || y == height() - 1) {
-            return 195075;
+            return 1000;
         } else {
             return xGradientSquared(x, y) + yGradientSquared(x, y);
         }
@@ -104,7 +104,7 @@ public class SeamCarver {
         }
 
         for (int x = 0; x < width(); x++) {
-            energyTo[x][0] = 195075;
+            energyTo[x][0] = 1000;
         }
 
         for (int y = 0; y < height() - 1; y++) {
