@@ -7,6 +7,10 @@ public class SeamCarver {
 
     // create a seam carver object based on the given picture
     public SeamCarver(Picture picture) {
+    	if(picture==null){
+    		System.out.println("picture is null");
+    		return;
+    	}
         this.picture = picture;
     }
 
