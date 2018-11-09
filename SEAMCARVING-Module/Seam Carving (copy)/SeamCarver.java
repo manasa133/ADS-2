@@ -1,9 +1,12 @@
 import java.util.Arrays;
+import java.awt.Color;
 
 public class SeamCarver {
     private Picture picture;
     private double[][] energyTo;
     private int[][] xTo;
+    double[][] picEnergy;
+
 
     // create a seam carver object based on the given picture
     public SeamCarver(Picture picture) {
@@ -12,7 +15,32 @@ public class SeamCarver {
     		return;
     	}
         this.picture = picture;
+        picEnergy = new double[width()][height()];
+
+        for(int i =0 ;i<width();i++){
+            for(int j =0 ;j<height();j++){
+                picEnergy[i][j]=calEnergy(i,j);
+            }
+        }
     }
+     double calEnergy(int x,int y){
+    if(x==0 || y==0|| x==width()-1 || y==height()-1){
+        return 1000;
+    }
+    Color left = picture.get(x-1,y);
+    Color right = picture.get(x+1,y);
+    Color top = picture.get(x,y-1);
+    Color bottom = picture.get(x,y+1);
+    double e1 = ((left.getRed()-right.getRed())*(left.getRed()-right.getRed()))+
+                ((left.getBlue()-right.getBlue())*(left.getBlue()-right.getBlue()))+
+                ((left.getGreen()-right.getGreen())*(left.getGreen()-right.getGreen()));
+    double e2 = ((top.getRed()-bottom.getRed())*(top.getRed()-bottom.getRed()))+
+                ((top.getBlue()-bottom.getBlue())*(top.getBlue()-bottom.getBlue()))+
+                ((top.getGreen()-bottom.getGreen())*(top.getGreen()-bottom.getGreen()));
+
+    return Math.sqrt(e1+e2);
+
+   }
 
     // current picture
     public Picture picture() {
@@ -152,9 +180,9 @@ public class SeamCarver {
             int col = seam[row + 1];
             // three neighboring, priority to center
             seam[row] = col;
-            if (col > 0 && energyTo[row][col - 1] < energyTo[row][seam[row]])
+            if (col > 0 && picEnergy[row][col - 1] < picEnergy[row][seam[row]])
                 seam[row] = col - 1;
-            if (col < (width() - 2) && energyTo[row][col + 1] < energyTo[row][seam[row]])
+            if (col < (width() - 2) && picEnergy[row][col + 1] < picEnergy[row][seam[row]])
                 seam[row] = col + 1;
         }
         //seam[0] = current;
