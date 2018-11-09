@@ -125,32 +125,13 @@ public class SeamCarver {
             sum[x][0] = BORDER_ENERGY;
             parent[x][0] = x;
         }
-        System.out.println(Arrays.deepToString(sum));
-        System.out.println(Arrays.deepToString(parent));
+        // System.out.println(Arrays.deepToString(sum));
+        // System.out.println(Arrays.deepToString(parent));
         // adding pixel energy with least adjucent pixel
-        // for (int y = 1; y < height; ++y) {
-        //     for (int x = 0; x < width; ++x) {
-        //         double temp = sum[x][y - 1];
-        //          parent[x][y] = x;
-        //         if (x > 0 && sum[x - 1][y - 1] < temp) {
-        //             temp = sum[x - 1][y - 1];
-        //             parent[x][y] = x - 1;
-        //         }
-
-        //         if (x < width - 1 && sum[x + 1][y - 1] < temp) {
-        //             temp = sum[x + 1][y - 1];
-        //             parent[x][y] = x + 1;
-        //         }
-        //         sum[x][y] = energy(x, y) + temp;
-        //     }
-        // }
-
-
-        // finding pixcels with least adjucent pixel
         for (int y = 1; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
                 double temp = sum[x][y - 1];
-                parent[x][y] = x;
+                 parent[x][y] = x;
                 if (x > 0 && sum[x - 1][y - 1] < temp) {
                     temp = sum[x - 1][y - 1];
                     parent[x][y] = x - 1;
@@ -160,8 +141,12 @@ public class SeamCarver {
                     temp = sum[x + 1][y - 1];
                     parent[x][y] = x + 1;
                 }
+                sum[x][y] = energy(x, y) + temp;
             }
         }
+
+
+
         int index = 0;
         for (int x = 1; x < width; ++x) {
             if (sum[x][height - 1] < sum[index][height - 1]) {
