@@ -184,7 +184,7 @@ public class SeamCarver {
         for (int i = -1; i <= 1; i++) {
             int nextCol = col + i;
             if (nextCol < 0 || nextCol >= width) continue;
-            if (distTo[nextRow][nextCol] > distTo[row][col] + energy(nextCol, nextRow)) {
+            if (distTo[nextRow][nextCol] >= distTo[row][col] + energy(nextCol, nextRow)) {
                 distTo[nextRow][nextCol] = distTo[row][col] + energy(nextCol, nextRow);
                 edgeTo[nextRow][nextCol] = i;
             }
@@ -196,7 +196,7 @@ public class SeamCarver {
         for (int i = -1; i <= 1; i++) {
             int nextRow = row + i;
             if (nextRow < 0 || nextRow >= height) continue;
-            if (distTo[nextRow][nextCol] > distTo[row][col]  + energy(nextCol, nextRow)) {
+            if (distTo[nextRow][nextCol] >= distTo[row][col]  + energy(nextCol, nextRow)) {
                 distTo[nextRow][nextCol] = distTo[row][col]  + energy(nextCol, nextRow);
                 edgeTo[nextRow][nextCol] = i;
             }
