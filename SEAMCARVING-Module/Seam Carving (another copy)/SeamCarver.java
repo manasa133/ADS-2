@@ -45,7 +45,7 @@ public class SeamCarver {
 
       if (x == 0 || x == width() - 1 || y == 0 || y == height() - 1)
       {
-         return Math.pow(255.0, 2) * 3;
+         return 1000;
       }
 
       double deltaX = 0.0, deltaY = 0.0;
@@ -56,7 +56,7 @@ public class SeamCarver {
       y2 = pic.get(x, y + 1);
       deltaX = Math.pow((x1.getRed() - x2.getRed()), 2) + Math.pow((x1.getGreen() - x2.getGreen()), 2) + Math.pow((x1.getBlue() - x2.getBlue()), 2);
       deltaY = Math.pow((y1.getRed() - y2.getRed()), 2) + Math.pow((y1.getGreen() - y2.getGreen()), 2) + Math.pow((y1.getBlue() - y2.getBlue()), 2);
-      return deltaX + deltaY;
+      return Math.sqrt(deltaX + deltaY);
    }
 
    private int[] getSeam(String mode, HashMap edgeTo, String end) {
