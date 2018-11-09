@@ -179,9 +179,11 @@ public class SeamCarver {
             seam[h] = prevX;
             if(prevX >0 && picEnergy[prevX-1][h]  <  picEnergy[prevX][h] ){
                seam[h] = prevX-1;
+               prevX = prevX-1;
             }
             if(prevX <height()-2 && picEnergy[prevX+1][h]  <  picEnergy[prevX][h] ){
                seam[h] = prevX+1;
+               prevX = prevX+1;
             }
              prevX = xTo[prevX][h];
         }
