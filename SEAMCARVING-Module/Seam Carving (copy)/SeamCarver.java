@@ -6,8 +6,6 @@ public class SeamCarver {
     private double[][] energyTo;
     private int[][] xTo;
     double[][] picEnergy;
-
-
     // create a seam carver object based on the given picture
     public SeamCarver(Picture picture) {
     	if(picture==null){
@@ -16,14 +14,13 @@ public class SeamCarver {
     	}
         this.picture = picture;
         picEnergy = new double[width()][height()];
-
         for(int i =0 ;i<width();i++){
             for(int j =0 ;j<height();j++){
                 picEnergy[i][j]=calEnergy(i,j);
             }
         }
     }
-     double calEnergy(int x,int y){
+    double calEnergy(int x,int y){
     if(x==0 || y==0|| x==width()-1 || y==height()-1){
         return 1000;
     }
@@ -39,8 +36,7 @@ public class SeamCarver {
                 ((top.getGreen()-bottom.getGreen())*(top.getGreen()-bottom.getGreen()));
 
     return Math.sqrt(e1+e2);
-
-   }
+}
 
     // current picture
     public Picture picture() {
@@ -152,7 +148,7 @@ public class SeamCarver {
                 }
             }
         }
-        //System.out.println(Arrays.deepToString(energyTo));
+        System.out.println(Arrays.deepToString(energyTo));
 
         // find minimum energy path
         double minEnergy = Double.POSITIVE_INFINITY;
@@ -172,20 +168,23 @@ public class SeamCarver {
 		int current=0;
         // for (h = height() - 2; h >=1; h--) {
         //     seam[h] = prevX;
-        //     //current = prevX;
+        //     current = prevX;
         //     prevX = xTo[prevX][h];
 
         // }
-        for (int row = height() - 2; row >= 0; row--) {
-            int col = seam[row + 1];
-            // three neighboring, priority to center
-            seam[row] = col;
-            if (col > 0 && picEnergy[row][col - 1] < picEnergy[row][seam[row]])
-                seam[row] = col - 1;
-            if (col < (width() - 2) && picEnergy[row][col + 1] < picEnergy[row][seam[row]])
-                seam[row] = col + 1;
-        }
-        //seam[0] = current;
+        // seam[0] = current;
+
+        //my
+        // for(int h = height()-2;h>=1;h--){
+        //     prevX = seam[h+1];
+        //     seam[h] = prevX;
+        //     if(prevX >0 && picEnergy[prevX-1][h]  <  picEnergy[prevX][h] ){
+        //        seam[h] = prevX-1;
+        //     }
+        //     if(prevX <height()-2 && picEnergy[prevX+1][h]  <  picEnergy[prevX][h] ){
+        //        seam[h] = prevX+1;
+        //     }
+        // }
 
         return seam;
     }
