@@ -99,6 +99,8 @@ public class SeamCarver {
                     temp = sum[x - 1][y + 1];
                     parent[x][y] = y + 1;
                 }
+                 sum[x][y] = energy(x, y) + temp;
+
             }
         }
 
