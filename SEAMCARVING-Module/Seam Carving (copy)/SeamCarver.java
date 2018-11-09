@@ -175,7 +175,7 @@ public class SeamCarver {
         // seam[0] = current;
 
         //my
-        for(h = height()-2;h>=1;h--){
+        for(h = height()-2;h>=0;h--){
             seam[h] = prevX;
             if(prevX >0 && picEnergy[prevX-1][h]  <  picEnergy[prevX][h] ){
                seam[h] = prevX-1;
