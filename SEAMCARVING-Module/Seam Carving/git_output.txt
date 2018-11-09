@@ -1,4 +1,0 @@
-[master c8d6af5] "ads2_m10_a1_1: 4/9 testcases passed. Cannot run hidden testcases as Server is unreachablecheck_style score: 0/1 "
- 5 files changed, 34 insertions(+), 42 deletions(-)
- rewrite SEAMCARVING-Module/Seam Carving/result/score.json (100%)
-fatal: could not read Username for 'https://github.com': Input/output error
