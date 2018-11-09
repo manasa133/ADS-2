@@ -124,7 +124,7 @@ public class SeamCarver {
                 }
             }
         }
-        System.out.println(Arrays.deepToString(energyTo));
+        //System.out.println(Arrays.deepToString(energyTo));
 
         // find minimum energy path
         double minEnergy = Double.POSITIVE_INFINITY;
