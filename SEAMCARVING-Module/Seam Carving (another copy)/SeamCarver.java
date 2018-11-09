@@ -1,330 +1,595 @@
 
 
 import java.awt.Color;
+import java.util.Arrays;
 
+/*
+ * Copyright (C) 2017 Michael <GrubenM@GMail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/**
+ *
+ * @author Michael <GrubenM@GMail.com>
+ */
 public class SeamCarver {
 
-    private static final int BORDER_PIXEL_ENERGY = 1000;
+    // The representation of the given image
+    private int[][] color;
 
-    private Picture picture;
+    // The energy of each pixel in the image
     private double[][] energy;
-    private Color[][] rgb;
 
-    private int oriWidth;
-    private int oriHeight;
-    private int newWidth;
-    private int newHeight;
+    // Arrays and sinks for finding the shortest path through the image energy
+    private double[][] distTo;
+    private double distToSink;
+    private int[][] edgeTo;
+    private int edgeToSink;
 
-    // create a seam carver object based on the given picture
-    public SeamCarver(Picture picture)
-    {
-        this.picture = picture;
+    // The current width and height
+    private int w;
+    private int h;
 
-        this.oriWidth = picture.width();
-        this.oriHeight = picture.height();
-        this.newWidth = picture.width();
-        this.newHeight = picture.height();
+    // False if finding or removing a vertical seam,
+    // true if finding or removing a horizontal seam.
+    private boolean transposed;
 
-        // initialize rgb data
-        //rgb = new int[width][height];
-        rgb = new Color[oriWidth][oriHeight];
-        for(int x = 0; x < oriWidth; x++) {
-            for(int y = 0; y < oriHeight; y++) {
-                /*
-                int R = picture.get(x, y).getRed();
-                int G = picture.get(x, y).getGreen();
-                int B = picture.get(x, y).getBlue();
-                R = (R << 16) & 0x00FF0000;
-                G = (G << 8) & 0x0000FF00;
-                B = B & 0x000000FF;
-                rgb[x][y] = 0xFF000000 | R | G | B;
-                */
-                rgb[x][y] = picture.get(x, y);
-                //rgb[y * oriWidth + x] = picture.get(x, y);
+    /**
+     * Create a seam carver object based on the given picture.
+     *
+     * @param picture the given picture
+     * @throws NullPointerException if the given picture is {@code null}.
+     */
+    public SeamCarver(Picture picture) {
+        if (picture == null) throw new java.lang.NullPointerException();
+
+        // Initialize the dimensions of the picture
+        w = picture.width();
+        h = picture.height();
+
+        // Store the picture's color information in an int array,
+        // using the RGB coding described at:
+        // http://docs.oracle.com/javase/8/docs/api/java/awt/Color.html#getRGB()
+        color = new int[h][w];
+
+        // Set the dimensions of the energy array
+        energy = new double[h][w];
+
+        // Store color information
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                color[i][j] = picture.get(j, i).getRGB();
             }
         }
 
-        energy = new double[oriWidth][oriHeight];
-        calcEnergy();
-    }
-
-    // current picture
-    public Picture picture()
-    {
-        Picture pic = new Picture(newWidth, newHeight);
-        for(int x = 0; x < newWidth; x++) {
-            for(int y = 0; y < newHeight; y++) {
-                pic.set(x, y, rgb[x][y]);
-                //pic.set(x, y, rgb[y * oriWidth + x]);
-            }
-        }
-        return pic;
-    }
-    // width of current picture
-    public int width()
-    {
-        return this.newWidth;
-    }
-    // height of current picture
-    public int height()
-    {
-        return this.newHeight;
-    }
-
-    private void transposeImage()
-    {
-        int oriTransWidth = oriHeight;
-        int oriTransHeight = oriWidth;
-        int transWidth = newHeight;
-        int transHeight = newWidth;
-        Color [][]rgbTrans = new Color[oriTransWidth][oriTransHeight];
-        double [][]energyTrans = new double[oriTransWidth][oriTransHeight];
-        for(int x = 0; x < transWidth; x++) {
-            for(int y = 0; y < transHeight; y++) {
-                rgbTrans[x][y] = rgb[y][x];
-                energyTrans[x][y] = energy[y][x];
-            }
-        }
-
-        // update transposed image information
-        oriWidth = oriTransWidth;
-        oriHeight = oriTransHeight;
-        newWidth = transWidth;
-        newHeight = transHeight;
-        rgb = rgbTrans;
-        energy = energyTrans;
-    }
-
-    private void transposeImageBack()
-    {
-        transposeImage();
-    }
-
-    private void calcEnergy()
-    {
-         //make the default energy of border pixels
-        for(int i = 0; i < newHeight; i++) {
-            energy[0][i] = energy[newWidth-1][i] = BORDER_PIXEL_ENERGY;
-        }
-
-        for(int i = 0; i < newWidth; i++) {
-            energy[i][0] = energy[i][newHeight-1] = BORDER_PIXEL_ENERGY;
-        }
-
-        for(int x = 1; x < newWidth-1; x++) {
-            for(int y = 1; y < newHeight-1; y++) {
-                int Rx = picture.get(x+1, y).getRed()   - picture.get(x-1, y).getRed();
-                int Gx = picture.get(x+1, y).getGreen() - picture.get(x-1, y).getGreen();
-                int Bx = picture.get(x+1, y).getBlue()  - picture.get(x-1, y).getBlue();
-                int deltaX2 = Rx * Rx + Gx * Gx + Bx * Bx;
-
-                int Ry = picture.get(x, y+1).getRed()   - picture.get(x, y-1).getRed();
-                int Gy = picture.get(x, y+1).getGreen() - picture.get(x, y-1).getGreen();
-                int By = picture.get(x, y+1).getBlue()  - picture.get(x, y-1).getBlue();
-                int deltaY2 = Ry * Ry + Gy * Gy + By * By;
-
-                energy[x][y] = Math.sqrt(deltaX2 + deltaY2);
+        // Pre-calculate the energy array
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                energy[i][j] = calcEnergy(j, i);
             }
         }
     }
 
-    // energy of pixel at column x and row y
-    // O(1)
-    public double energy(int x, int y)
-    {
-        if (x < 0 || x >= newWidth)
-            throw new IndexOutOfBoundsException("x must be between 0 and " + (newWidth-1));
-        if (y < 0 || y >= newHeight)
-            throw new IndexOutOfBoundsException("y must be between 0 and " + (newHeight-1));
-        return energy[x][y];
-    }
+    /**
+     * Current picture.
+     *
+     * @return the current picture.
+     */
+    public Picture picture() {
 
-    private void dfs(int x, int y, boolean [][]marked, Stack<Integer> reversePostOrder)
-    {
-        marked[x][y] = true;
-        for (int i = x-1; i < x+1; i++) {
-            if (i >= 0 && i < newWidth && y+1 < newHeight) {
-                if (marked[i][y+1] == false)
-                    dfs(i, y+1, marked, reversePostOrder);
+        // Create and return a new pic with the stored color information
+        Picture pic = new Picture(width(), height());
+        for (int i = 0; i < height(); i++) {
+            for (int j = 0; j < width(); j++) {
+                pic.set(j, i, new Color(color[i][j]));
             }
         }
-        reversePostOrder.push(y * newWidth + x);
+        return new Picture(pic);
     }
 
-    // given a start coordinate, calculate post-order
-    private Iterable<Integer> reversePost()
-    {
-        Stack<Integer> reversePostOrder = new Stack<Integer>();
-        boolean [][]marked = new boolean[newWidth][newHeight];
-        for(int x = 0; x < newWidth; x++) {
-            for(int y = 0; y < newHeight; y++) {
-                marked[x][y] = false;
-            }
-        }
-//      for(int x = 0; x < width; x++) {
-//          for(int y = 0; y < height; y++) {
-//              if (marked[x][y] == false)
-//                  dfs(x, y, marked, reversePostOrder);
-//          }
-//      }
-        for(int x = newWidth-1; x >= 0; x--) {
-            for(int y = newHeight-1; y >= 0; y--) {
-                if (marked[x][y] == false)
-                    dfs(x, y, marked, reversePostOrder);
-            }
-        }
-        return reversePostOrder;
+    /**
+     * Width of current picture.
+     *
+     * @return the width of the current picture.
+     */
+    public int width() {
+        return w;
     }
 
-    // sequence of indices for horizontal seam
-    public int[] findHorizontalSeam()
-    {
-        transposeImage(); // counterclockwise
-        int []seam = findVerticalSeam();
-        transposeImageBack(); // clockwise
+    /**
+     * Height of current picture.
+     *
+     * @return the height of the current picture.
+     */
+    public int height() {
+        return h;
+    }
+
+    /**
+     * Energy of pixel at column x and row y.
+     *
+     * Note that (0, 0) is the pixel at the top-left corner of the image.
+     *
+     * The dual-gradient energy function is used to compute the energy of a
+     * pixel.
+     *
+     * @param x
+     * @param y
+     * @return the energy of the pixel at column <em>x</em> and row <em>y</em>.
+     * @throws IndexOutOfBoundsException if <em>x</em> is greater than
+     *         or equal to the image width, if <em>y</em> is greater than or
+     *         equal to the image height, or if <em>x</em> or <em>y</em> are
+     *         negative.
+     */
+    public double energy(int x, int y) {
+        if (x >= width() || y >= height() || x < 0 || y < 0)
+            throw new java.lang.IndexOutOfBoundsException();
+
+        return energy[y][x];
+    }
+
+    /**
+     * Helper method to calculate the energy of pixel at column x and row y.
+     *
+     * Note that (0,0) is the pixel at the top-left corner of the image.
+     *
+     * The dual-gradient energy function is used to compute the energy of a
+     * pixel.
+     *
+     * @param x
+     * @param y
+     * @return the energy of the pixel at column <em>x</em> and row <em>y</em>.
+     * @throws IndexOutOfBoundsException if <em>x</em> is greater than
+     *         or equal to the image width, if <em>y</em> is greater than or
+     *         equal to the image height, or if <em>x</em> or <em>y</em> are
+     *         negative.
+     */
+    private double calcEnergy(int x, int y) {
+        if (x >= width() || y >= height() || x < 0 || y < 0)
+            throw new java.lang.IndexOutOfBoundsException();
+
+        // Return 1000.0 for border pixels
+        if (x == 0 || y == 0 || x == width() - 1 || y == height() - 1)
+            return (double) 1000;
+
+        // Store pixel values in Color objects.
+        Color up = new Color(color[y - 1][x]);
+        Color down = new Color(color[y + 1][x]);
+        Color left = new Color(color[y][x - 1]);
+        Color right = new Color(color[y][x + 1]);
+
+        return Math.sqrt(gradient(up, down) + gradient(left, right));
+    }
+
+    /**
+     * Returns the gradient computed from the two Colors <em>a</em> and
+     * <em>b</em>.
+     *
+     * @param a the first Color
+     * @param b the second Color
+     * @return the gradient of <em>a</em> and <em>b</em>.
+     */
+    private double gradient(Color a, Color b) {
+        return Math.pow(a.getRed() - b.getRed(), 2) +
+               Math.pow(a.getBlue() - b.getBlue(), 2) +
+               Math.pow(a.getGreen() - b.getGreen(), 2);
+    }
+
+    /**
+     * Sequence of indices for horizontal seam.
+     *
+     * This method conducts a shortest-path search as if the energy matrix
+     * were an edge-weighted directed acyclic graph.
+     *
+     * The source vertex is an implicit vertex sitting to the left of the image,
+     * to which all of the left-column pixels are adjacent.
+     *
+     * The sink vertex is an explicit vertex sitting to the right of the image,
+     * which is (the only vertex) adjacent to all of the right-column pixels.
+     *
+     * Each pixel can visit only the pixel to its immediate right, the pixel to
+     * its right and above it (if possible), and the pixel to its right and
+     * below it (if possible).
+     *
+     * @return the sequence of indices for the horizontal seam.
+     */
+    public int[] findHorizontalSeam() {
+        transposed = true;
+
+        // Reset our distTo and edgeTo values for a new search
+        distToSink = Double.POSITIVE_INFINITY;
+        edgeToSink = Integer.MAX_VALUE;
+        distTo = new double[h][w];
+        edgeTo = new int[h][w];
+        for (double[] r: distTo) Arrays.fill(r, Double.POSITIVE_INFINITY);
+        for (int[] r: edgeTo) Arrays.fill(r, Integer.MAX_VALUE);
+
+        // Relax the entire left column, since this is our starting column
+        for (int i = 0; i < height(); i++) {
+            distTo[i][0] = (double) 1000;
+            edgeTo[i][0] = -1;
+        }
+
+        // Visit all pixels from the left side, diagonally to the right,
+        // in keeping with topological order.
+        // The topological order is the reverse of the DFS post-order,
+        // which visits the top-most adjacent pixel first, before it visits
+        // the pixels below.
+        for (int depth = height() - 1; depth > 0; depth--) {
+            for (int out = 0;
+                    out < width() && depth + out < height();
+                    out++) {
+                visit(depth + out, out);
+            }
+        }
+
+        // Visit all pixels from the top, diagonally to the right,
+        // in keeping with the topological order described above.
+        for (int top = 0; top < width(); top++) {
+            for (int depth = 0;
+                    depth + top < width() && depth < height();
+                    depth++) {
+                visit(depth, depth + top);
+            }
+        }
+
+        // Populate seam[] with the shortest path
+        int[] seam = new int[width()];
+        seam[width() - 1] = edgeToSink;
+
+        for (int j = width() - 1; j > 0; j--) {
+            seam[j - 1] = edgeTo[seam[j]][j];
+        }
+
+        // null out our shortest-path arrays for garbage collection
+        distTo = null;
+        edgeTo = null;
+
+        return seam;
+
+    }
+
+    /**
+     * Sequence of indices for vertical seam.
+     *
+     * This method conducts a shortest-path search as if the energy matrix
+     * were an edge-weighted directed acyclic graph.
+     *
+     * The source vertex is an implicit vertex sitting above the image, to which
+     * all of the top-row pixels are adjacent.
+     *
+     * The sink vertex is an explicit vertex sitting below the image, which is
+     * (the only vertex) adjacent to all of the bottom-row pixels.
+     *
+     * Each pixel can visit only the pixel directly below it, the pixel below it
+     * and to its left (if possible), and the pixel below it and to its right
+     * (if possible).
+     *
+     * @return the sequence of indices for the vertical seam.
+     */
+    public int[] findVerticalSeam() {
+        transposed = false;
+
+        // Reset our distTo and edgeTo values for a new search
+        distToSink = Double.POSITIVE_INFINITY;
+        edgeToSink = Integer.MAX_VALUE;
+        distTo = new double[h][w];
+        edgeTo = new int[h][w];
+        for (double[] r: distTo) Arrays.fill(r, Double.POSITIVE_INFINITY);
+        for (int[] r: edgeTo) Arrays.fill(r, Integer.MAX_VALUE);
+
+        // Relax the entire top row, since this is our starting row
+        Arrays.fill(distTo[0], (double) 1000);
+        Arrays.fill(edgeTo[0], -1);
+
+        // Visit all pixels from the top, diagonally to the right,
+        // in keeping with topological order.
+        // The topological order is the reverse of the DFS post-order,
+        // which visits the left-most adjacent pixel first, before it visits
+        // pixels to the right.
+        for (int top = width() - 1; top >= 0; top--) {
+            for (int depth = 0;
+                    depth + top < width() && depth < height();
+                    depth++) {
+                visit(depth, depth + top);
+            }
+        }
+        // Visit all pixels from the left side, diagonally to the right,
+        // in keeping with the topological order described above.
+        for (int depth = 1; depth < height(); depth++) {
+            for (int out = 0;
+                    out < width() && depth + out < height();
+                    out++) {
+                visit(depth + out, out);
+            }
+        }
+
+        // Populate seam[] with the shortest path
+        int[] seam = new int[height()];
+        seam[height() - 1] = edgeToSink;
+
+        for (int i = height() - 1; i > 0; i--) {
+            seam[i - 1] = edgeTo[i][seam[i]];
+        }
+
+        // null out our shortest-path arrays for garbage collection
+        distTo = null;
+        edgeTo = null;
+
         return seam;
     }
 
-    // sequence of indices for vertical seam
-    public int[] findVerticalSeam()
-    {
-        int []seam = new int[newHeight];
-        double [][]sumEnergy = new double[newWidth][newHeight];
-        int [][]pixelTo = new int[newWidth][newHeight];
-        // initialize
-        // note: if dfs start from left to right, then modified below to start from right to left
-        for(int x = 0; x < newWidth; x++) {
-            for(int y = 0; y < newHeight; y++) {
-                pixelTo[x][y] = y * newWidth + x;
-                sumEnergy[x][y] = Double.MAX_VALUE;
+    /**
+     * Given a pixel's coordinates, relax the pixels adjacent to that pixel.
+     *
+     * @param i the vertical index of the pixel
+     * @param j the horizontal index of the pixel
+     */
+    private void visit(int i, int j) {
+        if (transposed) {
+            // Only relax the sink
+            if (j == width() - 1) {
+                relax(i, j);
+            }
+
+            // Bottom edge; relax to the right and above
+            else if (i == height() - 1) {
+                relax(i, j, i, j + 1);
+                relax(i, j, i - 1, j + 1);
+            }
+
+            // Top edge; relax to the right and below
+            else if (i == 0) {
+                relax(i, j, i, j + 1);
+                relax(i, j, i + 1, j + 1);
+            }
+
+            // Middle pixel; relax right, below, and above
+            else {
+                relax(i, j, i - 1, j + 1);
+                relax(i, j, i, j + 1);
+                relax(i, j, i + 1, j + 1);
             }
         }
 
-        Iterable<Integer> reversePostOrder = reversePost();
-        for (int v : reversePostOrder) {
-            int x = v % newWidth;
-            int y = v / newWidth;
-
-            // update top line pixel
-            if (y == 0) {
-                sumEnergy[x][y] = energy[x][y];
+        else {
+            // Only relax the sink
+            if (i == height() - 1) {
+                relax(i, j);
             }
-            // update downward pixels
-            if (y+1 < newHeight) {
-                // lower left
-                if (x-1 >= 0) {
-                    if (sumEnergy[x-1][y+1] > sumEnergy[x][y] + energy[x-1][y+1]) {
-                        sumEnergy[x-1][y+1] = sumEnergy[x][y] + energy[x-1][y+1];
-                        pixelTo[x-1][y+1] = v;
-                    }
-                }
-                // down below
-                if (sumEnergy[x][y+1] > sumEnergy[x][y] + energy[x][y+1]) {
-                    sumEnergy[x][y+1] = sumEnergy[x][y] + energy[x][y+1];
-                    pixelTo[x][y+1] = v;
-                }
-                // lower right
-                if (x+1 < newWidth) {
-                    if (sumEnergy[x+1][y+1] > sumEnergy[x][y] + energy[x+1][y+1]) {
-                        sumEnergy[x+1][y+1] = sumEnergy[x][y] + energy[x+1][y+1];
-                        pixelTo[x+1][y+1] = v;
-                    }
-                }
+
+            // Right edge; relax below and to the left
+            else if (j == width() - 1) {
+                relax(i, j, i + 1, j - 1);
+                relax(i, j, i + 1, j);
+            }
+
+            // Left edge; relax below and to the right
+            else if (j == 0) {
+                relax(i, j, i + 1, j);
+                relax(i, j, i + 1, j + 1);
+            }
+
+            // Middle pixel; relax left, below, and right
+            else {
+                relax(i, j, i + 1, j - 1);
+                relax(i, j, i + 1, j);
+                relax(i, j, i + 1, j + 1);
             }
         }
-
-        double minEnergy = Double.MAX_VALUE;
-        int minEnergyIndexX = 0;
-        for (int i = 0; i < newWidth; i++) {
-            if (minEnergy > sumEnergy[i][newHeight-1]) {
-                minEnergy = sumEnergy[i][newHeight-1];
-                minEnergyIndexX = i;
-            }
-        }
-
-        for (int i = newHeight-1; i >= 0; i--) {
-            seam[i] = minEnergyIndexX;
-            // next pixel coordinate X
-            minEnergyIndexX = pixelTo[minEnergyIndexX][i] % newWidth;
-        }
-
-        return seam;
     }
 
-    private boolean checkValidSeam(int[] seam)
-    {
-        for (int i = 0; i < seam.length-1; i++) {
-            if (Math.abs(seam[i+1] - seam[i]) > 1) {
-                return false;
+    /**
+     * Given an index, relax the sink vertex from that index.
+     *
+     * This method should only be called on the "last" vertices in the image.
+     *
+     * @param i the vertical index of the pixel
+     * @param j the horizontal index of the pixel
+     */
+    private void relax(int i, int j) {
+        if (validIndex(i, j)) {
+            if (distToSink > distTo[i][j]) {
+                distToSink = distTo[i][j];
+                if (transposed) edgeToSink = i;
+                else edgeToSink = j;
             }
         }
-        return true;
     }
 
-    // remove horizontal seam from current picture
-    public void removeHorizontalSeam(int[] seam)
-    {
-        if (seam == null)
-            throw new NullPointerException("can't set seam to null");
+    /**
+     * Given the coordinates of pixel 1 and pixel 2, relax pixel 2 from pixel 1.
+     *
+     * This method should not be called on the "last" pixels in the image.
+     *
+     * @param i1 the vertical index of pixel 1
+     * @param j1 the horizontal index of pixel 1
+     * @param i2 the vertical index of pixel 2
+     * @param j2 the horizontal index of pixel 2
+     */
+    private void relax(int i1, int j1, int i2, int j2) {
+        if (validIndex(i1, j1) && validIndex(i2, j2)) {
+            if (distTo[i2][j2] > distTo[i1][j1] + energy[i2][j2]) {
+                distTo[i2][j2] = distTo[i1][j1] + energy[i2][j2];
+                if (transposed) edgeTo[i2][j2] = i1;
+                else edgeTo[i2][j2] = j1;
+            }
+        }
+    }
+
+    /**
+     * Is the given pixel coordinate valid?
+     *
+     * @param i the vertical index of the pixel
+     * @param j the horizontal index of the pixel
+     * @return {@code true} if the current picture contains the pixel coordinate,
+     *         {@code false} otherwise.
+     */
+    private boolean validIndex(int i, int j) {
+        return (i >= 0 && i < height() && j >= 0 && j < width());
+    }
+
+    /**
+     * Remove horizontal seam from current picture.
+     *
+     * @param seam the given seam.
+     * @throws NullPointerException if the given <em>seam</em> is {@code null}.
+     * @throws IllegalArgumentException if the given <em>seam</em> does not
+     *         match the picture width, if an index in the given <em>seam</em>
+     *         is negative or is taller than the picture, or if two adjacent
+     *         entries in the given <em>seam</em> differ by more than 1.
+     */
+    public void removeHorizontalSeam(int[] seam) {
+
+        // Check for bad input
+        if (height() <= 1)
+            throw new java.lang.IllegalArgumentException("Picture too short");
+        if (seam == null) throw new java.lang.NullPointerException();
         if (seam.length != width())
-            throw new IllegalArgumentException("seam length must be " + width());
-        if (checkValidSeam(seam) == false) {
-            throw new IllegalArgumentException("two adjacent entries differ by more than 1");
+            throw new java.lang.IllegalArgumentException("Invalid seam length");
+
+        int yLast = seam[0];
+        for (int y: seam) {
+            if (y >= height() || y < 0)
+                throw new java.lang.IllegalArgumentException("Index out of bounds");
+            if (Math.abs(y - yLast) > 1)
+                throw new java.lang.IllegalArgumentException("Index not adjacent");
+            yLast = y;
         }
 
-        if (width() <= 1)
-            throw new IllegalArgumentException("width can't be <= 1");
-        if (height() <= 1)
-            throw new IllegalArgumentException("height can't be <= 1");
+        // Create replacement arrays
+        int[][] newColor = new int[height() - 1][width()];
+        double[][] newEnergy = new double[height() - 1][width()];
 
-//      transposeImage();
-//      removeVerticalSeam(seam);
-//      transposeImageBack();
+        // Populate replacement arrays, skipping pixels in the seam
+        for (int j = 0; j < width(); j++) {
+            int s = seam[j];
+            for (int i = 0; i < s; i++) {
+                newColor[i][j] = color[i][j];
+                newEnergy[i][j] = energy[i][j];
+            }
 
-        for (int x = 0; x < newWidth; x++) {
-            int yStartPos = seam[x];
-            for(int y = yStartPos; y < newHeight-1; y++) {
-                rgb[x][y] = rgb[x][y+1];
-                energy[x][y] = energy[x][y+1];
+            for (int i = s + 1; i < height(); i++) {
+                newColor[i - 1][j] = color[i][j];
+                newEnergy[i - 1][j] = energy[i][j];
             }
         }
 
-        this.newHeight--;
+        color = newColor;
+        energy = newEnergy;
+        h--;
+
+        // Recalculate the energy along the seam
+        for (int j = 0; j < width(); j++) {
+            int s = seam[j];
+            // Top edge removed
+            if (s == 0) {
+                energy[s][j] = calcEnergy(j, s);
+            }
+
+            // Bottom edge removed
+            else if (s == height()) {
+                energy[s - 1][j] = calcEnergy(j, s - 1);
+            }
+
+            // Middle pixel removed
+            else {
+                energy[s][j] = calcEnergy(j, s);
+                energy[s - 1][j] = calcEnergy(j, s - 1);
+            }
+        }
     }
 
-    // remove vertical seam from current picture
-    public void removeVerticalSeam(int[] seam)
-    {
-        if (seam == null)
-            throw new NullPointerException("can't set seam to null");
+    /**
+     * Remove vertical seam from current picture.
+     *
+     * @param seam the given seam.
+     * @throws NullPointerException if the given <em>seam</em> is {@code null}.
+     * @throws IllegalArgumentException if the given <em>seam</em> does not
+     *         match the picture height, if an index in the given <em>seam</em>
+     *         is negative or is wider than the picture, or if two adjacent
+     *         entries in the given <em>seam</em> differ by more than 1.
+     */
+    public void removeVerticalSeam(int[] seam) {
+
+        // Check for bad input
+        if (width() <= 1)
+            throw new java.lang.IllegalArgumentException("Picture too narrow");
+        if (seam == null) throw new java.lang.NullPointerException();
         if (seam.length != height())
-            throw new IllegalArgumentException("seam length must be " + height());
-        if (checkValidSeam(seam) == false) {
-            throw new IllegalArgumentException("two adjacent entries differ by more than 1");
+            throw new java.lang.IllegalArgumentException("Invalid seam length");
+
+        int xLast = seam[0];
+        for (int x: seam) {
+            if (x >= width() || x < 0)
+                throw new java.lang.IllegalArgumentException("Index out of bounds");
+            if (Math.abs(x - xLast) > 1)
+                throw new java.lang.IllegalArgumentException("Index not adjacent");
+            xLast = x;
         }
 
-        if (width() <= 1)
-            throw new IllegalArgumentException("width can't be <= 1");
-        if (height() <= 1)
-            throw new IllegalArgumentException("height can't be <= 1");
+        // Create replacement arrays
+        int[][] newColor = new int[height()][width() - 1];
+        double[][] newEnergy = new double[height()][width() - 1];
 
-        for (int y = 0; y < newHeight; y++) {
-            int xStartPos = seam[y];
-//          int yOffset = y * oriWidth;
-//          System.arraycopy(rgb, yOffset+x+1, rgb, yOffset+x, newWidth-1-x);
-//          System.arraycopy(energy[y], x+1, energy[y], x, newWidth-1-x);
-            for(int x = xStartPos; x < newWidth-1; x++) {
-                rgb[x][y] = rgb[x+1][y];
-                energy[x][y] = energy[x+1][y];
+        // Populate replacement arrays, skipping pixels in the seam
+        for (int i = 0; i < height(); i++) {
+            int s = seam[i];
+
+            for (int j = 0; j < s; j++) {
+                newColor[i][j] = color[i][j];
+                newEnergy[i][j] = energy[i][j];
+            }
+
+            for (int j = s + 1; j < width(); j++) {
+                newColor[i][j - 1] = color[i][j];
+                newEnergy[i][j - 1] = energy[i][j];
             }
         }
 
-        this.newWidth--;
+        color = newColor;
+        energy = newEnergy;
+        w--;
+
+        // Recalculate the energy along the seam
+        for (int i = 0; i < height(); i++) {
+            int s = seam[i];
+
+            // Left edge removed
+            if (s == 0) {
+                energy[i][s] = calcEnergy(s, i);
+            }
+
+            // Right edge removed
+            else if (s == width()) {
+                energy[i][s - 1] = calcEnergy(s - 1, i);
+            }
+
+            // Middle pixel removed
+            else {
+                energy[i][s] = calcEnergy(s, i);
+                energy[i][s - 1] = calcEnergy(s - 1, i);
+            }
+        }
     }
 
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
-        // TODO Auto-generated method stub
-
+        // TODO code application logic here
     }
 
 }
