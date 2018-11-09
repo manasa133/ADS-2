@@ -139,12 +139,18 @@ public class SeamCarver {
         int[] seam = new int[height()];
         seam[height() - 1] = minEnergyX;
         int prevX = xTo[minEnergyX][height() - 1];
-
-        for (int h = height() - 2; h >0; h--) {
+		int h;
+		int current=0;
+        for (h = height() - 2; h >=1; h--) {
             seam[h] = prevX;
+            current = prevX;
             prevX = xTo[prevX][h];
+
         }
-        seam[0] = prevX;
+        // System.out.println(current);
+        // System.out.println(prevX);
+        // System.out.println(h);
+        seam[0] = current;
 
         return seam;
     }
