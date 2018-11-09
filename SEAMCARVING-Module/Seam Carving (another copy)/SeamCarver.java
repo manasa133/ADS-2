@@ -123,7 +123,7 @@ public class SeamCarver {
                 int By = picture.get(x, y+1).getBlue()  - picture.get(x, y-1).getBlue();
                 int deltaY2 = Ry * Ry + Gy * Gy + By * By;
 
-                energy[x][y] = deltaX2 + deltaY2;
+                energy[x][y] = Math.sqrt(deltaX2 + deltaY2);
             }
         }
     }
