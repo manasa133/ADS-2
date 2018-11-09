@@ -109,7 +109,7 @@ Starting audit...
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving (another copy)/SeamCarver.java:53:40: '-' is not followed by whitespace. [WhitespaceAround]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving (another copy)/SeamCarver.java:53:51: '-' is not preceded with whitespace. [WhitespaceAround]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving (another copy)/SeamCarver.java:53:52: '-' is not followed by whitespace. [WhitespaceAround]
-[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving (another copy)/SeamCarver.java:53:62: '195075' is a magic number. [MagicNumber]
+[ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving (another copy)/SeamCarver.java:53:62: '1000' is a magic number. [MagicNumber]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving (another copy)/SeamCarver.java:57:5: Missing a Javadoc comment. [JavadocMethod]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving (another copy)/SeamCarver.java:57:32: Parameter j should be final. [FinalParameters]
 [ERROR] /home/manasa/Desktop/Students_2018/ADS-2/ADS-2/SEAMCARVING-Module/Seam Carving (another copy)/SeamCarver.java:57:39: Parameter ener should be final. [FinalParameters]
