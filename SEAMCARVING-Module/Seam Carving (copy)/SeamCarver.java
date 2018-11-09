@@ -140,10 +140,11 @@ public class SeamCarver {
         seam[height() - 1] = minEnergyX;
         int prevX = xTo[minEnergyX][height() - 1];
 
-        for (int h = height() - 2; h >= 0; h--) {
+        for (int h = height() - 2; h >0; h--) {
             seam[h] = prevX;
             prevX = xTo[prevX][h];
         }
+        seam[0] = prevX;
 
         return seam;
     }
