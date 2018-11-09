@@ -124,6 +124,7 @@ public class SeamCarver {
                 }
             }
         }
+        System.out.println(Arrays.deepToString(energyTo));
 
         // find minimum energy path
         double minEnergy = Double.POSITIVE_INFINITY;
@@ -141,16 +142,22 @@ public class SeamCarver {
         int prevX = xTo[minEnergyX][height() - 1];
 		int h;
 		int current=0;
-        for (h = height() - 2; h >=1; h--) {
-            seam[h] = prevX;
-            current = prevX;
-            prevX = xTo[prevX][h];
+        // for (h = height() - 2; h >=1; h--) {
+        //     seam[h] = prevX;
+        //     //current = prevX;
+        //     prevX = xTo[prevX][h];
 
+        // }
+        for (int row = height() - 2; row >= 0; row--) {
+            int col = seam[row + 1];
+            // three neighboring, priority to center
+            seam[row] = col;
+            if (col > 0 && energyTo[row][col - 1] < energyTo[row][seam[row]])
+                seam[row] = col - 1;
+            if (col < (width() - 2) && energyTo[row][col + 1] < energyTo[row][seam[row]])
+                seam[row] = col + 1;
         }
-        // System.out.println(current);
-        // System.out.println(prevX);
-        // System.out.println(h);
-        seam[0] = current;
+        //seam[0] = current;
 
         return seam;
     }
