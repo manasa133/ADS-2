@@ -147,17 +147,17 @@ public class DijkstraUndirectedSP {
      *         {@code null} if no such path
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
-    // public Iterable<Edge> pathTo(int v) {
-    //     validateVertex(v);
-    //     if (!hasPathTo(v)) return null;
-    //     Stack<Edge> path = new Stack<Edge>();
-    //     int x = v;
-    //     for (Edge e = edgeTo[v]; e != null; e = edgeTo[x]) {
-    //         path.push(e);
-    //         x = e.other(x);
-    //     }
-    //     return path;
-    // }
+    public Iterable<Edge> pathTo(int v) {
+        validateVertex(v);
+        if (!hasPathTo(v)) return null;
+        Stack<Edge> path = new Stack<Edge>();
+        int x = v;
+        for (Edge e = edgeTo[v]; e != null; e = edgeTo[x]) {
+            path.push(e);
+            x = e.other(x);
+        }
+        return path;
+    }
 
 
     // check optimality conditions:

@@ -60,6 +60,8 @@ public class Solution {
 			DijkstraUndirectedSP dsp3 = new DijkstraUndirectedSP(G,v);
 
 				System.out.println(dsp2.distTo(v) +dsp3.distTo(destination2) );
+				System.out.println(dsp2.pathTo(v));
+				System.out.println(dsp3.pathTo(destination2));
 		}
 
 			break;
