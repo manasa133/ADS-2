@@ -151,11 +151,19 @@ public class DijkstraUndirectedSP {
         validateVertex(v);
         if (!hasPathTo(v)) return null;
         Stack<Edge> path = new Stack<Edge>();
+        Stack<Integer> my = new Stack<Integer>();
         int x = v;
         for (Edge e = edgeTo[v]; e != null; e = edgeTo[x]) {
             path.push(e);
             x = e.other(x);
         }
+        for (Edge e = edgeTo[v]; e != null; e = edgeTo[x]) {
+            my.push(e.other(x));
+            x = e.other(x);
+        }
+        System.out.println("MM"+ my);
+
+
         return path;
     }
 
