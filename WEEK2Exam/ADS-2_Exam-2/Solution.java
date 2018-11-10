@@ -57,7 +57,9 @@ public class Solution {
 			System.out.println("No Path Found.");
 
 		}else{
-				System.out.println(dsp2.distTo(destination2));
+			DijkstraUndirectedSP dsp3 = new DijkstraUndirectedSP(G,v);
+
+				System.out.println(dsp2.distTo(v) +dsp3.distTo(destination2) );
 		}
 
 			break;
