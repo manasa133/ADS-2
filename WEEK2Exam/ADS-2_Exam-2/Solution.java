@@ -33,8 +33,12 @@ public class Solution {
 		int source =  Integer.parseInt(sd[0]);
 		int destination = Integer.parseInt(sd[1]);
 		DijkstraSP dsp = new DijkstraSP(G,source);
-		System.out.println(dsp.distTo(destination));
-			break;
+		//System.out.println(dsp.distTo(destination));
+		if(dsp.distTo(destination)==Double.POSITIVE_INFINITY){
+			System.out.println("No Path Found.");
+
+		}
+		break;
 
 		case "ViaPaths":
 			// Handle the case of ViaPaths, where three integers are given.
