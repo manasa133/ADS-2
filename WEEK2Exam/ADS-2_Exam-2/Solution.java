@@ -48,6 +48,18 @@ public class Solution {
 			// third is the destination.
 			// If the path exists print the distance between them.
 			// Other wise print "No Path Found."
+		String[] svd = sc.nextLine().split(" ");
+		int source2 =  Integer.parseInt(svd[0]);
+		int v =  Integer.parseInt(svd[1]);
+		int destination2 = Integer.parseInt(svd[2]);
+		DijkstraSP dsp2 = new DijkstraSP(G,source2);
+		if(dsp2.distTo(destination2)==Double.POSITIVE_INFINITY || dsp2.distTo(v)==Double.POSITIVE_INFINITY){
+			System.out.println("No Path Found.");
+
+		}else{
+				System.out.println(dsp2.distTo(destination2));
+		}
+
 			break;
 
 		default:
