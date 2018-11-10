@@ -1,3 +1,4 @@
+import  java.util.*;
 /******************************************************************************
  *  Compilation:  javac DijkstraSP.java
  *  Execution:    java DijkstraSP input.txt s
@@ -86,7 +87,9 @@ public class DijkstraSP {
             int v = pq.delMin();
             for (DirectedEdge e : G.adj(v))
                 relax(e);
+            System.out.println(Arrays.toString(distTo));
         }
+
 
         // check optimality conditions
        // assert check(G, s);
