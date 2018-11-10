@@ -23,7 +23,6 @@
  ******************************************************************************/
 
 
-
 /**
  *  The {@code EdgeWeightedGraph} class represents an edge-weighted
  *  graph of vertices named 0 through <em>V</em> – 1, where each
@@ -79,7 +78,7 @@ public class EdgeWeightedGraph {
      * @param  E the number of edges
      * @throws IllegalArgumentException if {@code V < 0}
      * @throws IllegalArgumentException if {@code E < 0}
-    //  */
+     */
     // public EdgeWeightedGraph(int V, int E) {
     //     this(V);
     //     if (E < 0) throw new IllegalArgumentException("Number of edges must be nonnegative");
@@ -237,7 +236,7 @@ public class EdgeWeightedGraph {
      */
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append(V + " vertices " + E +" edges"+ NEWLINE);
+        s.append(V + " " + E + NEWLINE);
         for (int v = 0; v < V; v++) {
             s.append(v + ": ");
             for (Edge e : adj[v]) {
@@ -253,11 +252,7 @@ public class EdgeWeightedGraph {
      *
      * @param args the command-line arguments
      */
-    // public static void main(String[] args) {
-    //     In in = new In(args[0]);
-    //     EdgeWeightedGraph G = new EdgeWeightedGraph(in);
-    //     StdOut.println(G);
-    // }
+
 
 }
 

@@ -8,10 +8,10 @@ public class Solution {
 		Scanner sc = new Scanner(System.in);
 		int Vertices = Integer.parseInt(sc.nextLine());
 		int Edges = Integer.parseInt(sc.nextLine());
-		EdgeWeightedDigraph G = new EdgeWeightedDigraph(Vertices);
+		EdgeWeightedGraph G = new EdgeWeightedGraph(Vertices);
 		for(int i =0 ;i < Edges;i++){
 			String[] vw= sc.nextLine().split(" ");
-			DirectedEdge e = new DirectedEdge(Integer.parseInt(vw[0]),Integer.parseInt(vw[1]),
+			Edge e = new Edge(Integer.parseInt(vw[0]),Integer.parseInt(vw[1]),
 				Double.parseDouble(vw[2]));
 			G.addEdge(e);
 		}
@@ -32,7 +32,7 @@ public class Solution {
 		String[] sd = sc.nextLine().split(" ");
 		int source =  Integer.parseInt(sd[0]);
 		int destination = Integer.parseInt(sd[1]);
-		DijkstraSP dsp = new DijkstraSP(G,source);
+		DijkstraUndirectedSP dsp = new DijkstraUndirectedSP(G,source);
 
 		if(dsp.distTo(destination)==Double.POSITIVE_INFINITY){
 			System.out.println("No Path Found.");
@@ -52,7 +52,7 @@ public class Solution {
 		int source2 =  Integer.parseInt(svd[0]);
 		int v =  Integer.parseInt(svd[1]);
 		int destination2 = Integer.parseInt(svd[2]);
-		DijkstraSP dsp2 = new DijkstraSP(G,source2);
+		DijkstraUndirectedSP dsp2 = new DijkstraUndirectedSP(G,source2);
 		if(dsp2.distTo(destination2)==Double.POSITIVE_INFINITY || dsp2.distTo(v)==Double.POSITIVE_INFINITY){
 			System.out.println("No Path Found.");
 

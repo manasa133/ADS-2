@@ -23,7 +23,7 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  */
-public class DirectedEdge implements Comparable<DirectedEdge> {
+public class Edge implements Comparable<Edge> {
 
     private final int v;
     private final int w;
@@ -40,7 +40,7 @@ public class DirectedEdge implements Comparable<DirectedEdge> {
      *         is a negative integer
      * @throws IllegalArgumentException if {@code weight} is {@code NaN}
      */
-    public DirectedEdge(int v, int w, double weight) {
+    public Edge(int v, int w, double weight) {
         if (v < 0) throw new IllegalArgumentException("vertex index must be a nonnegative integer");
         if (w < 0) throw new IllegalArgumentException("vertex index must be a nonnegative integer");
         if (Double.isNaN(weight)) throw new IllegalArgumentException("Weight is NaN");
@@ -92,7 +92,7 @@ public class DirectedEdge implements Comparable<DirectedEdge> {
      *         argument edge
      */
     @Override
-    public int compareTo(DirectedEdge that) {
+    public int compareTo(Edge that) {
         return Double.compare(this.weight, that.weight);
     }
 
