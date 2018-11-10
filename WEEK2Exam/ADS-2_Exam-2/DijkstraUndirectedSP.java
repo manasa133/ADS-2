@@ -147,7 +147,7 @@ public class DijkstraUndirectedSP {
      *         {@code null} if no such path
      * @throws IllegalArgumentException unless {@code 0 <= v < V}
      */
-    public Iterable<Edge> pathTo(int v) {
+    public Iterable<Integer> pathTo(int v) {
         validateVertex(v);
         if (!hasPathTo(v)) return null;
         Stack<Edge> path = new Stack<Edge>();
@@ -156,15 +156,18 @@ public class DijkstraUndirectedSP {
         for (Edge e = edgeTo[v]; e != null; e = edgeTo[x]) {
             path.push(e);
             x = e.other(x);
+            my.push(x);
         }
-        for (Edge e = edgeTo[v]; e != null; e = edgeTo[x]) {
-            my.push(e.other(x));
-            x = e.other(x);
-        }
-        System.out.println("MM"+ my);
+        // for (Edge e = edgeTo[v]; e != null; e = edgeTo[x]) {
+        //     System.out.println(e);
+        //     my.push(e.other(x));
+        //     x = e.other(x);
+        // }
+       // System.out.println("MM"+ my);
+        return my;
 
 
-        return path;
+        //return path;
     }
 
 
