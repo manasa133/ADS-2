@@ -135,15 +135,15 @@ public class FastPrefixTST<Value> {
        }
        if (c == '.' || c > x.c) collect(x.right, prefix, i, pat, q);
    }
-   
+
    // has TST word with this prefix?
    public boolean hasPrefix(String prefix) {
       Node prefixNode = get(root, prefix, 0);
       if (prefixNode == null) return false;
-      if (prefixNode.val != null) return true;
-      if (prefixNode.left == null && prefixNode.mid == null && 
-            prefixNode.right == null) return false;
+      // if (prefixNode.val != null) return true;
+      // if (prefixNode.left == null && prefixNode.mid == null &&
+      //       prefixNode.right == null) return false;
       return true;
    }
-   
+
 }
