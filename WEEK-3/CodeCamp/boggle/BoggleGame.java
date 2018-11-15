@@ -1,21 +1,21 @@
 /******************************************************************************
  *  Compilation:  javac BoggleGame.java
  *  Execution:    java BoggleGame [m n]
- *  Dependencies: BoggleSolver.java BoggleBoard.java 
+ *  Dependencies: BoggleSolver.java BoggleBoard.java
  *  Author:       Matthew Drabick
  *
  *  GUI for the boggle solver. Pits the user against a computer opponent
- *  of various difficulties. Can be launched from the command line, where 
- *  the default size of the board for that game must be specified. 
- *  
+ *  of various difficulties. Can be launched from the command line, where
+ *  the default size of the board for that game must be specified.
+ *
  *  To add: Way to change the size of the board from inside the game
  *
  *  % javac BoggleGame.java
- *  
- *  % java BoggleGame 
+ *
+ *  % java BoggleGame
  *
  *  % java -Xmx300m BoggleGame 3 7
- *  
+ *
  *  Report bugs to: wayne@princeton.edu, CC mdrabick@princeton.edu
  *
  *  Note: expect some compiler warning with Java 7 because
@@ -84,7 +84,7 @@ public class BoggleGame extends JFrame {
     private static final int IMPOSSIBLE  = 4;
 
     // keep these two values in sync!
-    // used to force the JTextfield and the JList to be the same length 
+    // used to force the JTextfield and the JList to be the same length
     private static final int DEF_COLUMNS = 10;
     private static final String MAX_WORD_SIZE = "INCONSEQUENTIALLY";
 
@@ -97,12 +97,12 @@ public class BoggleGame extends JFrame {
     private int BOARD_COLS;
 
     // game values
-    private boolean inGame = true; 
+    private boolean inGame = true;
     private int elapsedTime = 0;     // elapsed time (in seconds)
     private int points = 0;          // current number of points
-    private Timer timer = new Timer(); 
+    private Timer timer = new Timer();
 
-    private String[] emptyList = new String[0]; 
+    private String[] emptyList = new String[0];
 
     private LinkedHashSet<String> foundWords;      // to keep words in same order as entered
     private TreeSet<String> validWords;
@@ -120,10 +120,10 @@ public class BoggleGame extends JFrame {
     private SET<String> commonDictionary;
     private SET<String> algs4Dictionary;
 
-    // GUI elements 
+    // GUI elements
     private JMenuBar menuBar;
     private JMenu gameMenu;
-    private JRadioButtonMenuItem[] difficultySelection; 
+    private JRadioButtonMenuItem[] difficultySelection;
     private BoggleSolver solver;
     private JLabel clock;
     private BoardPanel bp;
@@ -131,8 +131,8 @@ public class BoggleGame extends JFrame {
     private JLabel scoreLabel;
     private JLabel possiblePointsLabel;
     private JLabel oppScoreLabel;
-    
-    /** 
+
+    /**
      * Construct the GUI for the Boggle game.
      */
     public BoggleGame(int rows, int cols) {
@@ -146,7 +146,7 @@ public class BoggleGame extends JFrame {
         setLocationRelativeTo(null);
         this.makeMenuBar();
 
-        // timer panel 
+        // timer panel
         JPanel timerPanel = new JPanel();
         JLabel timerLabel = new JLabel("Timer:");
         String seconds = String.format("%02d", (GAME_TIME - elapsedTime) % SECONDS_PER_MINUTE);
@@ -158,16 +158,16 @@ public class BoggleGame extends JFrame {
 
         // text entry field
         entryField = new JTextField(DEF_COLUMNS);
-        entryField.setMaximumSize(new Dimension(entryField.getPreferredSize().width, 
+        entryField.setMaximumSize(new Dimension(entryField.getPreferredSize().width,
                                                 entryField.getPreferredSize().height));
         entryField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 checkWord();
-            }  
+            }
         });
         entryField.addKeyListener(new KeyListener() {
-            @Override 
+            @Override
             public void keyPressed(KeyEvent e) { }
             @Override
             public void keyReleased(KeyEvent e) {
@@ -183,7 +183,7 @@ public class BoggleGame extends JFrame {
         foundWordsList = new JList();
         foundWordsList.setPrototypeCellValue(MAX_WORD_SIZE);
         foundWordsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        foundWordsList.setListData(emptyList); 
+        foundWordsList.setListData(emptyList);
         foundWordsList.setVisibleRowCount(FOUND_WORDS_DISPLAY_COUNT);
         foundWordsList.setLayoutOrientation(JList.VERTICAL_WRAP);
         foundWordsList.setCellRenderer(new DefaultListCellRenderer() {
@@ -195,7 +195,7 @@ public class BoggleGame extends JFrame {
                 if (!inGame && inGame) {
                     if (foundWords.contains(word) && !opponentFoundWords.contains(word)) {
                         comp.setBackground(PLAYER_POINT_WORD);
-                    } 
+                    }
                     else if (foundWords.contains(word) && opponentFoundWords.contains(word)) {
                         comp.setBackground(NONPOINT_WORD);
                     }
@@ -236,7 +236,7 @@ public class BoggleGame extends JFrame {
                .addComponent(foundWordsScrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED,      GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE)
                .addComponent(scoreLabelPanel,      GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-               .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,        GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)  
+               .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,        GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         // creates the board and the list that will show all the available words at the end of a game
@@ -247,7 +247,7 @@ public class BoggleGame extends JFrame {
         validWordsList.setPrototypeCellValue(MAX_WORD_SIZE);
         validWordsList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         validWordsList.setLayoutOrientation(JList.VERTICAL_WRAP);
-        validWordsList.setCellRenderer(new DefaultListCellRenderer() { 
+        validWordsList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component comp = super.getListCellRendererComponent(list, value, index, false, false);
@@ -290,7 +290,7 @@ public class BoggleGame extends JFrame {
                  .addComponent(validWordsScrollPane, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
                  .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED,      GroupLayout.DEFAULT_SIZE,   GroupLayout.DEFAULT_SIZE)
                  .addComponent(possiblePointsPanel,  GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE, GroupLayout.PREFERRED_SIZE)
-                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,        GroupLayout.DEFAULT_SIZE,   Short.MAX_VALUE)  
+                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,        GroupLayout.DEFAULT_SIZE,   Short.MAX_VALUE)
         );
 
         // Opponent game panel
@@ -306,7 +306,7 @@ public class BoggleGame extends JFrame {
         opponentFoundWordsList.setListData(emptyList);
         opponentFoundWordsList.setVisibleRowCount(FOUND_WORDS_DISPLAY_COUNT);
         opponentFoundWordsList.setLayoutOrientation(JList.VERTICAL_WRAP);
-        opponentFoundWordsList.setCellRenderer(new DefaultListCellRenderer() { 
+        opponentFoundWordsList.setCellRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component comp = super.getListCellRendererComponent(list, value, index, false, false);
@@ -314,7 +314,7 @@ public class BoggleGame extends JFrame {
                 if (!inGame && inGame) {
                     if (!foundWords.contains(word) && opponentFoundWords.contains(word)) {
                         comp.setBackground(OPP_POINT_WORD);
-                    } 
+                    }
                     else if (foundWords.contains(word) && opponentFoundWords.contains(word)) {
                         comp.setBackground(NONPOINT_WORD);
                     }
@@ -356,10 +356,10 @@ public class BoggleGame extends JFrame {
                  .addComponent(oppScoreLabelPanel,      GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,   GroupLayout.DEFAULT_SIZE)
                  //.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED,         GroupLayout.DEFAULT_SIZE,   GroupLayout.DEFAULT_SIZE)
                  //.addComponent(winnerLabel,             GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,   GroupLayout.DEFAULT_SIZE)
-                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,           GroupLayout.DEFAULT_SIZE,   Short.MAX_VALUE)  
+                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,           GroupLayout.DEFAULT_SIZE,   Short.MAX_VALUE)
         );
 
-        // layout for the left and right panels 
+        // layout for the left and right panels
         Container content = getContentPane();
         GroupLayout layout = new GroupLayout(content);
         content.setLayout(layout);
@@ -373,7 +373,7 @@ public class BoggleGame extends JFrame {
                 .addComponent(gamePanel,       GroupLayout.DEFAULT_SIZE,   GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE)
                 .addComponent(opponentPanel,   GroupLayout.DEFAULT_SIZE,   GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)  
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createSequentialGroup()
@@ -415,9 +415,9 @@ public class BoggleGame extends JFrame {
         solver = new BoggleSolver(dictionary);
 
         newGame();
-        this.pack();   
+        this.pack();
     }
-    
+
     /**
      * Start a new game, can be called via the menu selection, the button, or CMD+N (CRTL+N).
      */
@@ -494,17 +494,17 @@ public class BoggleGame extends JFrame {
 
         oppScoreLabel.setText("Opponent's Points: " + oppCurScore);
         timer.cancel();
-        elapsedTime = -1; 
+        elapsedTime = -1;
         timer = new Timer();
         timer.schedule(new Countdown(), 0, 1000);
-        
+
     }
-    
+
     /**
      * End the current game, can be called via the menu selection, the button, or CMD+E (CRTL+E).
      */
     private void endGame() {
-        
+
         clock.setText("00:00");
         clock.setForeground(Color.RED);
         timer.cancel();
@@ -561,10 +561,10 @@ public class BoggleGame extends JFrame {
         if      (playerScore > opponentScore) winnerMessage = "                   You win!\n\n";
         else if (playerScore < opponentScore) winnerMessage = "            The computer wins!\n\n";
         else                                  winnerMessage = "                     Tie!\n\n";
-        String scoreMessage  = "                  Final score:\n          You: " +  playerScore + " - Computer: " + opponentScore; 
+        String scoreMessage  = "                  Final score:\n          You: " +  playerScore + " - Computer: " + opponentScore;
         JOptionPane.showMessageDialog(this, winnerMessage + scoreMessage, "Game finished", JOptionPane.PLAIN_MESSAGE);
     }
-    
+
     /**
      * Timer that runs to keep track of the game time.
      */
@@ -589,17 +589,17 @@ public class BoggleGame extends JFrame {
      * Pressing ENTER or clicking the Check Word button will call this.
      */
     private void checkWord() {
-        String s; 
+        String s;
         // decide to which to use, take the longer
         if (entryField.getText().length() >= bp.getCurrentPath().length())
             s = entryField.getText().toUpperCase();
-        else 
+        else
             s = bp.getCurrentPath().toUpperCase();
         s = s.trim();
         if (s.equals("")) return;
 
         // search for word
-        if (validWords.contains(s) && !foundWords.contains(s)) { 
+        if (validWords.contains(s) && !foundWords.contains(s)) {
             foundWords.add(s);
             foundWordsList.setListData(foundWords.toArray());
             points += scoreWord(s);
@@ -631,11 +631,11 @@ public class BoggleGame extends JFrame {
             entryField.setText("");
         }
     }
-    
-    /** 
+
+    /**
      * Score a word based off typical Boggle scoring.
      * @param s Word to score
-     * @return Score of the word passed in 
+     * @return Score of the word passed in
      */
     private int scoreWord(String s) {
         int pointValue;
@@ -647,7 +647,7 @@ public class BoggleGame extends JFrame {
         else                  pointValue = 11;
         return pointValue;
     }
-    
+
     /**
      * Class that displays the board for the user to interact with.
      * @author mdrabick
@@ -657,8 +657,8 @@ public class BoggleGame extends JFrame {
         private JLabel[] cubes = new JLabel[NUM_OF_CUBES];
         private int CUBE_DIM = 60;
         private int[] path;
-        private boolean foundWord; 
-        
+        private boolean foundWord;
+
         /**
          * Constructor for the board which the user interacts with in order to play Boggle.
          */
@@ -690,7 +690,7 @@ public class BoggleGame extends JFrame {
                                 path[0] = cur;
                                 highlightCubes();
                                 return;
-                            } 
+                            }
                             for (int j = 0; j < path.length; j++) {
                                 // if it is the first cube clicked
                                 if (j == 0 && path[j] == -1) {
@@ -713,12 +713,12 @@ public class BoggleGame extends JFrame {
                                     if (path[j-1] >= cur-BOARD_COLS-1 && path[j-1] <= cur-BOARD_COLS+1)
                                         path[j] = cur;
                                     // next to (same row)
-                                    else if (path[j-1] == cur-1 || path[j-1] == cur+1) 
+                                    else if (path[j-1] == cur-1 || path[j-1] == cur+1)
                                         path[j] = cur;
                                     // row below
                                     else if (path[j-1] >= cur+BOARD_COLS-1 && path[j-1] <= cur+BOARD_COLS+1)
                                         path[j] = cur;
-                                    
+
                                     break;
                                 }
                             }
@@ -732,7 +732,7 @@ public class BoggleGame extends JFrame {
                     @Override
                     public void mousePressed(MouseEvent arg0) { }
                     @Override
-                    public void mouseReleased(MouseEvent arg0) { }                 
+                    public void mouseReleased(MouseEvent arg0) { }
                 });
                 cubes[i].addKeyListener(new KeyListener() {
                     @Override
@@ -741,7 +741,7 @@ public class BoggleGame extends JFrame {
                     public void keyReleased(KeyEvent arg0) { }
                     @Override
                     public void keyTyped(KeyEvent arg0) {
-                        int keyCode = arg0.getKeyCode(); 
+                        int keyCode = arg0.getKeyCode();
                         if (keyCode == KeyEvent.VK_ENTER) {
                             checkWord();
                         }
@@ -759,7 +759,7 @@ public class BoggleGame extends JFrame {
                 cubes[i].setBackground(new Color(146, 183, 219));
             }
         }
-        
+
         /**
          * Get the word spelled by the selected path.
          * @return the word spelled out
@@ -773,10 +773,10 @@ public class BoggleGame extends JFrame {
             }
             return selectedWord.toString();
         }
-        
-        /** 
+
+        /**
          * Set the board with a String array.
-         * 
+         *
          */
         public void setBoard() {
             String[] letters = new String[BOARD_ROWS * BOARD_COLS];
@@ -790,8 +790,8 @@ public class BoggleGame extends JFrame {
                 }
             }
         }
-        
-        /** 
+
+        /**
          * Highlight all the cubes in the path array.
          */
         public void highlightCubes() {
@@ -800,7 +800,7 @@ public class BoggleGame extends JFrame {
                 cubes[path[i]].setBackground(new Color(232, 237, 76));
             }
         }
-        
+
         /**
          * Un-highlight all the cubes in the path array.
          */
@@ -811,7 +811,7 @@ public class BoggleGame extends JFrame {
                 cubes[path[i]].setBackground(new Color(146, 183, 219));
             }
         }
-        
+
         /**
          * Highlight the correct cubes when typing.
          * @param s String to match on the board
@@ -834,12 +834,12 @@ public class BoggleGame extends JFrame {
                 highlightCubes();
             }
         }
-        
+
         /**
          * Recursive helper method to search for a particular string on the board.
          * @param s String that is being searched
          * @param curChar Current char that is being sought
-         * @param pathIndex Current number of cubes searched (only differs from curChar if there is a q in string) 
+         * @param pathIndex Current number of cubes searched (only differs from curChar if there is a q in string)
          * @param i Row of the board
          * @param j Column of the board
          */
@@ -860,7 +860,7 @@ public class BoggleGame extends JFrame {
             // ignore if character if there is a 'Q' with no 'U'
             if (curChar != 0 && s.charAt(curChar-1) == 'Q' && s.charAt(curChar) != 'U')
                 return;
-            // increment character count if it is a 'U' after a 'Q' and keep searching 
+            // increment character count if it is a 'U' after a 'Q' and keep searching
             if (curChar != 0 && s.charAt(curChar-1) == 'Q' && s.charAt(curChar) == 'U')
                 curChar += 1;
             if (curChar >= s.length()) {
@@ -878,12 +878,12 @@ public class BoggleGame extends JFrame {
             for (int ii = -1; ii <= 1; ii++)
                 for (int jj = -1; jj <= 1; jj++)
                     if (!foundWord) dfs(s, curChar+1, pathIndex+1, i + ii, j + jj);
-            
+
             if (!foundWord) path[curChar] = -1;
         }
     }
-       
-    /** 
+
+    /**
      * Create the menu bar.
      */
     private void makeMenuBar() {
@@ -949,13 +949,13 @@ public class BoggleGame extends JFrame {
         gameMenu.add(quitMenuItem);
         setJMenuBar(menuBar);
     }
-    
-    
+
+
     /**
      * @param args the dimension of the Boggle game
      */
     public static void main(final String[] args) {
-        
+
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 int rows = 0;
@@ -996,7 +996,7 @@ public class BoggleGame extends JFrame {
                 }
 
                 if (rows <= 0 || cols <= 0) {
-                    throw new java.lang.IllegalArgumentException("Rows and columns must be positive" + 
+                    throw new java.lang.IllegalArgumentException("Rows and columns must be positive" +
                                                                  "\nUsage: java BoggleGame " +
                                                                  "\nor:    java BoggleGame [rows]" +
                                                                  "\nor:    java BoggleGame [rows] [cols]");
