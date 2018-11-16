@@ -31,7 +31,12 @@ public class BoggleSolver
 
     void dfs(int row,int col, boolean[][]marked,ArrayList<String> list,BoggleBoard board,String str){
     	marked[row][col]= true;
-    	str += board.getLetter(row,col)+"";
+    	if(board.getLetter(row,col)=='Q'){
+    		str += board.getLetter(row,col)+"U";
+    	}else{
+    		str += board.getLetter(row,col)+"";
+    	}
+
     	if(str.length()>2 && tst.contains(str)){
     		if(!list.contains(str)){
     			list.add(str);
