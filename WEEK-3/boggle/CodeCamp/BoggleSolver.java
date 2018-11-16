@@ -37,6 +37,10 @@ public class BoggleSolver
     		str += board.getLetter(row,col)+"";
     	}
 
+    	if(!tst.hasPrefixOf(str)){
+    		return;
+    	}
+
     	if(str.length()>2 && tst.contains(str)){
     		if(!list.contains(str)){
     			list.add(str);
