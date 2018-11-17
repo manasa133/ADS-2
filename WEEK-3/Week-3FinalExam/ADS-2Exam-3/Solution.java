@@ -1,4 +1,4 @@
-import java.util.Scanner;
+import java.util.*;
 
 
 public class Solution {
@@ -87,22 +87,40 @@ public class Solution {
 
 	public static BinarySearchST<String, Integer> loadDictionary(String file) {
 		BinarySearchST<String, Integer>  st = new BinarySearchST<String, Integer>();
-		// your code goes here
+		String[] input = toReadFile(file);
+		String[] inputl = new String[input.length];
+		for(int i =0 ;i<input.length;i++){
+			inputl[i] = input[i].toLowerCase();
+		}
+		List<String> list=Arrays.asList(inputl);
+		Set<String> unique = new HashSet<String>(list);
+		for (String key : unique) {
+		    st.put(key,Collections.frequency(list, key));
+		}
+
+
 		return st;
 	}
 
 }
 
 class T9 {
+	TST<Integer> myTst;
 
 	public T9(BinarySearchST<String, Integer> st) {
 		// your code goes here
+		myTst = new TST<Integer>();
+		for (String key : st.keys()) {
+			myTst.put(key,st.get(key));
+
+		}
 	}
 
 	// get all the prefixes that match with given prefix.
 	public Iterable<String> getAllWords(String prefix) {
 		// your code goes here
-		return null;
+
+		return myTst.keysWithPrefix(prefix);
 	}
 
 	public Iterable<String> potentialWords(String t9Signature) {
