@@ -1,3 +1,0 @@
-Score
-dictionary-shakespeare.txt
-board-q.txt

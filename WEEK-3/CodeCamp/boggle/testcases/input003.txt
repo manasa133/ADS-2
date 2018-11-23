@@ -1,3 +1,0 @@
-Score
-dictionary-yawl.txt
-board-points2.txt

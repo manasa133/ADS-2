@@ -1,3 +1,0 @@
-Score
-dictionary-enable2k.txt
-board-points26539.txt

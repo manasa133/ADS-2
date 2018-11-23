@@ -1,3 +1,0 @@
-Score
-dictionary-nursery.txt
-board-points0.txt

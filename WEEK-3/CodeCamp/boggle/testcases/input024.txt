@@ -1,3 +1,0 @@
-Score
-dictionary-2letters.txt
-board-points4410.txt

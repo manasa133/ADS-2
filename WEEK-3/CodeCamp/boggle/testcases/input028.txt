@@ -1,3 +1,0 @@
-Score
-dictionary-zingarelli2005.txt
-board-points26539.txt

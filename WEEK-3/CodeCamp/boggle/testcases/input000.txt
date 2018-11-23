@@ -1,3 +1,0 @@
-Score
-dictionary-algs4.txt
-board4x4.txt

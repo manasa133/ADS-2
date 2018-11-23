@@ -1,3 +1,0 @@
-Score
-dictionary-16q.txt
-board-16q.txt

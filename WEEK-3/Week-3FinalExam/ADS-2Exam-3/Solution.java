@@ -124,7 +124,30 @@ class T9 {
 	}
 
 	public Iterable<String> potentialWords(String t9Signature) {
-		// your code goes here
+
+		//hashmap:
+		HashMap<String, String[]> map = new HashMap<String, String[]>();
+		String[] a = {"a", "b","c"};
+		map.put("2",a);
+		String[] a1= {"d", "e","f"};
+		map.put("3",a1);
+		String[] a2 = {"g", "h","i"};
+		map.put("4",a2);
+		String[] a3= {"j", "k","l"};
+		map.put("5",a3);
+		String[] a4 = {"m", "n","o"};
+		map.put("6",a4);
+		String[] a5 = {"p", "q","r","s"};
+		map.put("7",a5);
+		String[] a6 = { "t","u","v"};
+		map.put("8",a6);
+		String[] a7 = {"w","x","y","z"};
+		map.put("9",a7);
+
+		for(int i =0 ;i< t9Signature.length();i++){
+			String num = t9Signature.charAt(i)+"";
+		}
+
 		return null;
 	}
 
@@ -136,9 +159,9 @@ class T9 {
             maxpq.insert(myTst.get(str));
         }
         for (int i = 0; i < k; i++) {
-            int freq = maxpq.delMax();
+            int max = maxpq.delMax();
             for (String s : words) {
-                if (freq == myTst.get(s)) {
+                if (max == myTst.get(s)) {
                     wordlist.add(s);
                 }
             }
@@ -146,6 +169,8 @@ class T9 {
         Collections.sort(wordlist);
         return wordlist;
 	}
+
+
 
 	// final output
 	// Don't modify this method.

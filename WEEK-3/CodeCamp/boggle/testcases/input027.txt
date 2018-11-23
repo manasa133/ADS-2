@@ -1,3 +1,0 @@
-Score
-dictionary-sowpods.txt
-board-points26539.txt

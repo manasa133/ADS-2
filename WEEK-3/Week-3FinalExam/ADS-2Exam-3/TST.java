@@ -259,4 +259,7 @@ public class TST<Value> {
 		        prefixNode.right == null) return false;
 		return true;
 	}
+	public Node<Value> getRoot(){
+		return root;
+	}
 }
